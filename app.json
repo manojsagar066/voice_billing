@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "voiceBillerApp",
+    "slug": "voiceBillerApp",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "voiceBillerApp"
+}
