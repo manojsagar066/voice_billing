@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-export default function LoginScreen() {
+export default function LoginScreen(props) {
   const [email,updateEmail] = useState("");
   const [password,updatePassword] = useState("");
   const [rePassword,updateRePassword] = useState("");
@@ -81,7 +81,13 @@ export default function LoginScreen() {
         <TouchableOpacity>
           <Text style={styles.fpText}>{isRegistered?"Forgot Password?":""}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.loginButton}>
+        <TouchableOpacity onPress={()=>{
+          
+          props.navigation.navigate({
+            routeName: 'PreviousBillsScreen',
+            params: {}
+          });
+        }} style={styles.loginButton}>
           <Text style={styles.loginButtonText}>{isRegistered?"Login":"Register"}</Text>
         </TouchableOpacity>
         <View style={styles.loginWithBar}>
