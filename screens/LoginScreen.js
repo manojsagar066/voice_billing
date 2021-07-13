@@ -12,6 +12,8 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import * as Google from 'expo-google-app-auth';
+import * as Facebook from 'expo-facebook';
+
 
 export default function LoginScreen(props) {
   const [email,updateEmail] = useState("");
@@ -19,17 +21,17 @@ export default function LoginScreen(props) {
   const [rePassword,updateRePassword] = useState("");
   const [isVisible,updateIsVisible] = useState(false);
   const [isRegistered,updateIsRegistered] = useState(true);
-  const [isLoading,setIsLoading] = useState(false);
+  const [isLoadingGoogle,setIsLoadingGoogle] = useState(false);
+  const [isLoadingFacebook,setIsLoadingFacebook] = useState(false);
   const [error,setError] = useState("")
   const [valid,setValid] = useState(true)
 
   const handleGoogleAuth = ()=>{
     const config = {
-      androidClientId : 'Client ID',
+      androidClientId : 'appId',
       scopes:['profile','email']
     };
     Google.logInAsync(config).then((res)=>{
-      
       const {type,user} = res;
       if(type == 'success'){
         console.log(user);
@@ -40,13 +42,46 @@ export default function LoginScreen(props) {
       }else{
 
       }
-      setIsLoading(false);
+      setIsLoadingGoogle(false);
     }).catch((err)=>{
       console.log(err);
-      setIsLoading(false);
+      setIsLoadingGoogle(false);
     })
 
   }
+
+  const handleFacebookAuth = async()=>{
+    const appId = 'appId';
+      try {
+        await Facebook.initializeAsync({
+          appId: appId,
+        });
+        const {
+          type,
+          token,
+          expirationDate,
+          permissions,
+          declinedPermissions,
+        } = await Facebook.logInWithReadPermissionsAsync({
+          permissions: ['public_profile'],
+        });
+        if (type === 'success') {
+          const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+          console.log(response);
+          props.navigation.navigate({
+            routeName: 'PreviousBillsScreen',
+            params: {}
+          });
+        } else {
+          // type === 'cancel'
+        }
+        setIsLoadingFacebook(false);
+      } catch ({ message }) {
+        setIsLoadingFacebook(false);
+        console.log(`Facebook Login Error: ${message}`);
+      }
+    }
+    
   
 
   return (
@@ -119,19 +154,19 @@ export default function LoginScreen(props) {
           <Text style={styles.loginButtonText}>{isRegistered?"Login":"Register"}</Text>
         </TouchableOpacity>
         <View style={styles.loginWithBar}>
-          {isLoading ? <ActivityIndicator size="small" color="#0000ff" />: <TouchableOpacity style={styles.iconButton}onPress={()=>{
-            setIsLoading(true);
+          {isLoadingGoogle ? <ActivityIndicator size="large" color='#307fc9' />: <TouchableOpacity style={styles.iconButton}onPress={()=>{
+            setIsLoadingGoogle(true);
             handleGoogleAuth();}}>
             <Icon name='google' type='font-awesome' size={30} color='#808e9b' />
           </TouchableOpacity>}
-          <TouchableOpacity style={styles.iconButton}>
+          {isLoadingFacebook ? <ActivityIndicator size="large" color='#307fc9' />:<TouchableOpacity style={styles.iconButton} onPress={()=>{setIsLoadingFacebook(true);handleFacebookAuth();}}>
             <Icon
               name='facebook-square'
               type='font-awesome'
               size={30}
               color='#808e9b'
             />
-          </TouchableOpacity>
+          </TouchableOpacity>}
         </View>
         <View style={styles.signUpTextView}>
           <Text style={styles.signUpText}>{isRegistered ?"Don't have an account?":"Have an account??"}</Text>
