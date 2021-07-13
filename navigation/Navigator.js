@@ -1,6 +1,6 @@
 import {  createAppContainer } from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
-import {createDrawerNavigator} from 'react-navigation-drawer';
+import {createDrawerNavigator} from 'react-navigation-drawer'
 import LoginScreen from '../screens/LoginScreen';
 import NewBillScreen from '../screens/NewBillScreen';
 import PreviousBillsScreen from '../screens/PreviousBillsScreen';
@@ -17,18 +17,12 @@ const AppNavigator = createStackNavigator({
         screen:PreviousBillsScreen,
         navigationOptions:{
             headerTitle: "Bills generated so far",
-            headerLeft:null
+            headerLeft:()=>null
         }
     },
     NewBillScreen : {
         screen:NewBillScreen,
     },
-    AddNewItemScreen:{
-        screen:AddNewItemScreen,
-        navigationOptions:{
-            headerTitle:"Add a new Item"
-        }
-    }
-})
-
+    
+});
 export default createAppContainer(AppNavigator);

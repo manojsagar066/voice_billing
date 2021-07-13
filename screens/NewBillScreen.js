@@ -1,49 +1,80 @@
-import React, { useState } from 'react'
-import {
-    StyleSheet,
-    Text,
-    TextInput,
-    View,Dimensions,
-    TouchableOpacity
-  } from 'react-native';
+import React, { useState } from 'react';
+import {StyleSheet,Text,View,TouchableOpacity,Modal,Button} from 'react-native';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
-import { FlatList } from 'react-native-gesture-handler';
+import { Audio } from 'expo-av';
+import * as FileSystem from 'expo-file-system';
 function NewBillScreen(props) {
+    const [uri,setUri] = useState("");
+    const [modalVisible,setModalVisible] = useState(false)
+    const [recording, setRecording] = useState();
+    const [sound, setSound] = useState();
     const [dummyData,setDummyData] = useState(
         [
-            {
-                item:"Groundnut Oil",
-                quantity:"2L",
-                amount:100
-            },
-            {
-                item:"Coconut Oil",
-                quantity:"1L",
-                amount:50
-            }
+            // {
+            //     item:"Groundnut Oil",
+            //     quantity:"2L",
+            //     amount:100
+            // },
+            // {
+            //     item:"Coconut Oil",
+            //     quantity:"1L",
+            //     amount:50
+            // }
         ],
     );
-    const renderItem = ({item})=>{
-        return (<View style={styles.itemRow}>
-            <View><Text style={{fontWeight:600}}>{item.item}</Text></View>
-            <View><Text style={{fontWeight:600}}>{item.quantity}</Text></View>
-            <View><Text style={{fontWeight:600}}>{item.amount}</Text></View>
-        </View>)
+
+    React.useEffect(() => {
+        return sound
+          ? () => {
+              console.log('Unloading Sound');
+              sound.unloadAsync(); }
+          : undefined;
+      }, [sound]);
+  async function startRecording() {
+    setUri('')
+    try {
+      console.log('Requesting permissions..');
+      await Audio.requestPermissionsAsync();
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
+      }); 
+      console.log('Starting recording..');
+      const { recording } = await Audio.Recording.createAsync(
+         Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
+      );
+      setRecording(recording);
+      console.log('Recording started');
+    } catch (err) {
+      console.error('Failed to start recording', err);
     }
+  }
+
+  async function stopRecording() {
+    console.log('Stopping recording..');
+    setRecording(undefined);
+    await recording.stopAndUnloadAsync();
+    const uri = recording.getURI(); 
+    setUri(uri);
+    const base64 = await FileSystem.readAsStringAsync(uri, { encoding: 'base64' });
+    console.log('Recording stopped and stored at', uri);
+    console.log(base64);
+  }
+
     return (
         <View style={styles.mainContainer}>
-            <View style={styles.mainRow}>
-                <View><Text style={{fontWeight:'bold',fontSize:15,color:'#187fcc'}}>Item</Text></View>
-                <View><Text style={{fontWeight:'bold',fontSize:15,color:'#187fcc'}}>Quantity</Text></View>
-                <View><Text style={{fontWeight:'bold',fontSize:15,color:'#187fcc'}}>Amount</Text></View>
+            {dummyData.length == 0?<View/>:<View style={styles.mainRow}>
+                <View><Text style={{fontWeight:'bold',fontSize:15,color:'#187fcc',textAlign:'center'}}>Item</Text></View>
+                <View><Text style={{fontWeight:'bold',fontSize:15,color:'#187fcc',textAlign:'center'}}>Quantity</Text></View>
+                <View><Text style={{fontWeight:'bold',fontSize:15,color:'#187fcc',textAlign:'center'}}>Amount</Text></View>
+            </View>}
+            <View style={styles.billContainer}>
+                
+                {uri.length == 0 ? <Text style={{fontSize:30,color:'#187fcc'}}>Start Billing</Text>:<View/>}
             </View>
-            <View style={styles.listView}>
-                <FlatList data={dummyData} renderItem={renderItem}/>
-            </View>
-            
             <View style={styles.mic}>
-                <TouchableOpacity>
-                    <Icon size={50} type='fontisto' name='mic' color='white'/>
+                <TouchableOpacity onPress={recording ? stopRecording : startRecording}>
+                    <Icon size={50} type='fontisto' name={recording ?'stop':'mic'} color='white'/>
                 </TouchableOpacity>
             </View>
             <View style={styles.buttonRow}>
@@ -65,13 +96,19 @@ function NewBillScreen(props) {
 
 NewBillScreen.navigationOptions = navigationData => {
     return {
-        headerTitle: 'Billing Customer 1'
+        headerTitle: 'Billing Customer 1',
+
       };
 }
 
 const styles = StyleSheet.create({
     mainContainer:{
         flex:1,
+    },
+    billContainer:{
+        flex:1,
+        alignItems:'center',
+        justifyContent:'center',
     },
     mainRow:{
         flexDirection:'row',
@@ -92,7 +129,7 @@ const styles = StyleSheet.create({
         
     },
     listView:{
-        flex:8
+        flex:5
     },
     buttonRow:{
         flexDirection:'row',
@@ -110,7 +147,14 @@ const styles = StyleSheet.create({
         width:'50%',
         flex:1
     },
-    mic:{backgroundColor:'#187fcc',padding:30,alignSelf:'center',borderRadius:50,width:100,marginVertical:20},
+    mic:{
+        backgroundColor:'#187fcc',
+        padding:30,
+        alignSelf:'center',
+        borderRadius:55,
+        width:110,
+        marginVertical:20
+    },
     buttonText:{
         alignSelf:'center',
         justifyContent:'center',
