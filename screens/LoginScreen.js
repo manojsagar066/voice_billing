@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
+  ActivityIndicator,
   TextInput,
   StatusBar,
   Keyboard,
@@ -10,6 +11,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import * as Google from 'expo-google-app-auth';
 
 export default function LoginScreen(props) {
   const [email,updateEmail] = useState("");
@@ -17,9 +19,35 @@ export default function LoginScreen(props) {
   const [rePassword,updateRePassword] = useState("");
   const [isVisible,updateIsVisible] = useState(false);
   const [isRegistered,updateIsRegistered] = useState(true);
-
+  const [isLoading,setIsLoading] = useState(false);
   const [error,setError] = useState("")
   const [valid,setValid] = useState(true)
+
+  const handleGoogleAuth = ()=>{
+    const config = {
+      androidClientId : 'Client ID',
+      scopes:['profile','email']
+    };
+    Google.logInAsync(config).then((res)=>{
+      
+      const {type,user} = res;
+      if(type == 'success'){
+        console.log(user);
+        props.navigation.navigate({
+          routeName: 'PreviousBillsScreen',
+          params: {}
+        });
+      }else{
+
+      }
+      setIsLoading(false);
+    }).catch((err)=>{
+      console.log(err);
+      setIsLoading(false);
+    })
+
+  }
+  
 
   return (
     <TouchableWithoutFeedback
@@ -91,9 +119,11 @@ export default function LoginScreen(props) {
           <Text style={styles.loginButtonText}>{isRegistered?"Login":"Register"}</Text>
         </TouchableOpacity>
         <View style={styles.loginWithBar}>
-          <TouchableOpacity style={styles.iconButton}>
+          {isLoading ? <ActivityIndicator size="small" color="#0000ff" />: <TouchableOpacity style={styles.iconButton}onPress={()=>{
+            setIsLoading(true);
+            handleGoogleAuth();}}>
             <Icon name='google' type='font-awesome' size={30} color='#808e9b' />
-          </TouchableOpacity>
+          </TouchableOpacity>}
           <TouchableOpacity style={styles.iconButton}>
             <Icon
               name='facebook-square'
