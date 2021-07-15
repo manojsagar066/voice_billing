@@ -1999,6 +1999,14 @@
     expo-modules-autolinking "^0.0.2"
     invariant "^2.2.4"
 
+"@unimodules/react-native-adapter@~6.3.4":
+  version "6.3.4"
+  resolved "https://registry.yarnpkg.com/@unimodules/react-native-adapter/-/react-native-adapter-6.3.4.tgz#b21e1750b9f2d6e3031dafba890c97586e428f4b"
+  integrity sha512-o2sX+QrYo2hmK0vNbxlULy319IxjgTWVraGxatrXeYPCbFEDM/u+nCLlCgGTz6ZrYN7dHnA0Xq3uoerhUPE0gg==
+  dependencies:
+    expo-modules-autolinking "^0.0.3"
+    invariant "^2.2.4"
+
 abort-controller@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/abort-controller/-/abort-controller-3.0.0.tgz#eaf54d53b62bae4138e809ca225c8439a6efb392"
@@ -3404,6 +3412,17 @@ expo-modules-autolinking@^0.0.2:
     find-up "~5.0.0"
     fs-extra "^9.1.0"
 
+expo-modules-autolinking@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/expo-modules-autolinking/-/expo-modules-autolinking-0.0.3.tgz#45ba8cb1798f9339347ae35e96e9cc70eafb3727"
+  integrity sha512-azkCRYj/DxbK4udDuDxA9beYzQTwpJ5a9QA0bBgha2jHtWdFGF4ZZWSY+zNA5mtU3KqzYt8jWHfoqgSvKyu1Aw==
+  dependencies:
+    chalk "^4.1.0"
+    commander "^7.2.0"
+    fast-glob "^3.2.5"
+    find-up "~5.0.0"
+    fs-extra "^9.1.0"
+
 expo-modules-core@~0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/expo-modules-core/-/expo-modules-core-0.2.0.tgz#68e5b6e53d0afbf8d131578831aed657589a2d42"
@@ -3427,20 +3446,20 @@ expo-structured-headers@~1.1.1:
   resolved "https://registry.yarnpkg.com/expo-structured-headers/-/expo-structured-headers-1.1.1.tgz#95e28ff8686a2c06fe6ad1decdbb94cc44716683"
   integrity sha512-OxDsWTDxwAhfW82DDXYTcT9UzSk2fYUb3YHiz/tQ1MObQMh0QVHgxcTe9vvtzguc6O4A2Y+f8tO1g3LcUEN2lg==
 
-expo-updates-interface@~0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/expo-updates-interface/-/expo-updates-interface-0.2.1.tgz#4c57f4622833cd02bc3261e15fb2fe2fd88d4592"
-  integrity sha512-OJmeBxq6O5ntDDOix3PGnhDHcj4dGq/Wwg5XiAHthR9M/GW9aOKQYF2Wu81MH/IOySSpR5yPDmvt+j7x3XaWGw==
+expo-updates-interface@~0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/expo-updates-interface/-/expo-updates-interface-0.2.2.tgz#f754ce2c562f427d87893a9d22a4cbab39e0defd"
+  integrity sha512-Gvjk/6DntlPfkoRrrmbl9jzD2YtlNVa9jV9/T1+zdvg9XvO7H+BUgAQ1NYFFx/3Wdk03z+xfCYugRWk9X5nZ5A==
 
-expo-updates@~0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/expo-updates/-/expo-updates-0.8.0.tgz#81e177811b3b70a40a0554d2cba820776eec4541"
-  integrity sha512-9V/MF7+oJjxASs15mXVYlW8zJE4RnZkUUva/xopPuoYcCVkbCKHKRQGjAlhD638JNjQL7/D8PO8Dd2GNQwj6ww==
+expo-updates@~0.8.1:
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/expo-updates/-/expo-updates-0.8.2.tgz#cc1c79f6927f72e6d0b583b6fc3a5449ae750087"
+  integrity sha512-BYDasWF+rCBR+1KbJhAYl+ctI6u6hbjwa2fmRpkfa4sRJjN2mftdmBoHVe3FtSBTprc9zrQUufgbA0GQC8OpHQ==
   dependencies:
     "@expo/config-plugins" "^3.0.0"
     "@expo/metro-config" "^0.1.70"
     expo-structured-headers "~1.1.1"
-    expo-updates-interface "~0.2.1"
+    expo-updates-interface "~0.2.2"
     fbemitter "^2.1.1"
     resolve-from "^5.0.0"
     uuid "^3.4.0"
@@ -6096,13 +6115,13 @@ react-native-size-matters@^0.3.1:
   resolved "https://registry.yarnpkg.com/react-native-size-matters/-/react-native-size-matters-0.3.1.tgz#24d0cfc335a2c730f6d58bd7b43ea5a41be4b49f"
   integrity sha512-mKOfBLIBFBcs9br1rlZDvxD5+mAl8Gfr5CounwJtxI6Z82rGrMO+Kgl9EIg3RMVf3G855a85YVqHJL2f5EDRlw==
 
-react-native-unimodules@~0.14.3:
-  version "0.14.3"
-  resolved "https://registry.yarnpkg.com/react-native-unimodules/-/react-native-unimodules-0.14.3.tgz#b84d050b554a790b9f79aeb534b8a8bbd27fbb2d"
-  integrity sha512-FhAqztCacYvQwsx8FAOU+x3eywSFy3Tc9U86YovVWp86vz6066XU1SB/HPbAD+oiBJsB02yRPKxtYQT3CrOqnQ==
+react-native-unimodules@~0.14.5:
+  version "0.14.5"
+  resolved "https://registry.yarnpkg.com/react-native-unimodules/-/react-native-unimodules-0.14.5.tgz#5dcc7ba00ec018caf5d93225c30132b8222e55e1"
+  integrity sha512-AfgbkFUHIkpCytxd2UsNbE0cAmzKpgiQ+ma5iGlzK7fZelMJIv7XEuqFfKT4CZhYgetg5ZHf+ZNr140B/N1RgA==
   dependencies:
     "@unimodules/core" "~7.1.1"
-    "@unimodules/react-native-adapter" "~6.3.1"
+    "@unimodules/react-native-adapter" "~6.3.4"
     chalk "^2.4.2"
     expo-asset "~8.3.2"
     expo-constants "~11.0.1"

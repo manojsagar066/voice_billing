@@ -30,7 +30,7 @@ export default function LoginScreen(props) {
   const dispatchAction = useDispatch();
   const handleGoogleAuth = ()=>{
     const config = {
-      androidClientId : 'appId',
+      androidClientId : 'clientID',
       scopes:['profile','email']
     };
     Google.logInAsync(config).then((res)=>{
@@ -54,7 +54,7 @@ export default function LoginScreen(props) {
   }
 
   const handleFacebookAuth = async()=>{
-    const appId = 'appId';
+    const appId = 'appID';
       try {
         await Facebook.initializeAsync({
           appId: appId,
@@ -71,7 +71,7 @@ export default function LoginScreen(props) {
         if (type === 'success') {
           const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
           const body = await response.json();
-          console.log(body);
+          console.log(body,expirationDate,permissions,declinedPermissions);
           dispatchAction(login(body));
           props.navigation.navigate({
             routeName: 'PreviousBillsScreen',
@@ -97,8 +97,8 @@ export default function LoginScreen(props) {
     >
       <View style={styles.container}>
         <Text style={styles.welcomeText}>Hello There!</Text>
-        <View style={{backgroundColor:'#307fc9',padding:30,alignSelf:'center',borderRadius:100,width:170,marginTop:40}}>
-            <Icon size={100} type='fontisto' name='mic' color='white'/>
+        <View style={{backgroundColor:'#307fc9',padding:40,alignSelf:'center',borderRadius:80,width:160,height:160,marginTop:40}}>
+            <Icon size={80} type='fontisto' name='mic' color='white'/>
         </View>
         <Text style={styles.loginText}>{isRegistered?"Login":"Register"}</Text>
         <TextInput

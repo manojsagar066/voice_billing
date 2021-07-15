@@ -7,12 +7,12 @@ import PreviousBillsScreen from '../screens/PreviousBillsScreen';
 import AddNewItemScreen from '../screens/AddNewItemScreen';
 const AppNavigator = createStackNavigator({
     
-    LoginScreen : {
-        screen:LoginScreen,
-        navigationOptions:{
-            headerShown:false
-        }
-    },
+    // LoginScreen : {
+    //     screen:LoginScreen,
+    //     navigationOptions:{
+    //         headerShown:false
+    //     }
+    // },
     PreviousBillsScreen:{
         screen:PreviousBillsScreen,
         navigationOptions:{
