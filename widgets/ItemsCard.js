@@ -1,9 +1,31 @@
 import React from 'react'
-import {View,Text,StyleSheet,Dimensions,} from 'react-native';
+import {View,Text,StyleSheet,Dimensions,TouchableOpacity,Alert} from 'react-native';
 function ItemsCard(props) {
-    const {title,quantity,cost} = props;
+    const {title,quantity,cost,setBillData} = props;
     return (
+        
         <View style={styles.card}>
+            <TouchableOpacity onLongPress={()=>{
+                Alert.alert(`Delete ${title}`,`Do you want to delete this item??`,[
+                    {
+                        text:'Delete',
+                        onPress:()=>{
+                            setBillData((prevBill)=>{
+                                return prevBill.filter((value, index, arr)=>{
+                                    console.log(value);
+                                    return value.title !== title;
+                                })
+                            })
+                        }
+                    },
+                    {
+                        text:'Cancel',
+                        onPress:()=>{}
+                    }
+                ],{
+                    cancelable:true
+                })
+            }}>
             <View style={styles.rowContainer}>
                 <View>
                 <Text style={styles.text}>{title}</Text>
@@ -13,8 +35,9 @@ function ItemsCard(props) {
                 <Text style={{color:'white',fontSize:20,}}>{`₹${cost}`}</Text>
                 </View>
             </View>
-            
+            </TouchableOpacity>
         </View>  
+        
     )
 }
 const styles = StyleSheet.create({

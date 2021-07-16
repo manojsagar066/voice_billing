@@ -1,6 +1,7 @@
 import React, { useEffect,useState } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 import { login } from '../store/actions/appActions';
+import { androidClientId ,facebookAppId} from "../helpers/authIds";
 import {
   StyleSheet,
   Text,
@@ -30,7 +31,7 @@ export default function LoginScreen(props) {
   const dispatchAction = useDispatch();
   const handleGoogleAuth = ()=>{
     const config = {
-      androidClientId : 'clientID',
+      androidClientId : androidClientId,
       scopes:['profile','email']
     };
     Google.logInAsync(config).then((res)=>{
@@ -54,7 +55,7 @@ export default function LoginScreen(props) {
   }
 
   const handleFacebookAuth = async()=>{
-    const appId = 'appID';
+    const appId = facebookAppId;
       try {
         await Facebook.initializeAsync({
           appId: appId,

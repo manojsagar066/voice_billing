@@ -53,7 +53,8 @@ const styles = StyleSheet.create({
     mainContainer:{
         flex:1,
         alignItems:'center',
-        justifyContent:'center'
+        justifyContent:'center',
+        backgroundColor:'#d6d3cb'
     },
     centeredView: {
       flex: 1,

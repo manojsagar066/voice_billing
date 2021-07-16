@@ -10,9 +10,18 @@ export const startRecordingAudio = async(setUri,setRecording)=>{
         playsInSilentModeIOS: true,
       }); 
       console.log('Starting recording..');
-      const { recording } = await Audio.Recording.createAsync(
-         Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
-      );
+      const { recording } = await Audio.Recording.createAsync({
+        isMeteringEnabled: true,
+        android: {
+          extension: ".wav",
+          outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_DEFAULT,
+          audioEncoder: Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_DEFAULT,
+          sampleRate: 44100,
+        },
+        ios: {
+          extension: ".caf",
+        },
+      });
       setRecording(recording);
       console.log('Recording started');
     } catch (err) {
@@ -27,5 +36,14 @@ export const startRecordingAudio = async(setUri,setRecording)=>{
     const uri = recording.getURI(); 
     setUri(uri);const base = await FileSystem.readAsStringAsync(uri, { encoding: 'base64' });
     setbase64(base);
-    console.log('Recording stopped and stored at', uri);console.log(base64);
+    console.log('Recording stopped and stored at', uri);
+    fetch("http://192.168.43.125:5000/additem", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({"string":base}),
+    }).then((res)=>res.json()).then((data)=>{
+      console.log(data);
+    });
   }
