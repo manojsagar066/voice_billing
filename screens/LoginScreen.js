@@ -1,15 +1,18 @@
 import React, { useEffect,useState } from 'react';
+import { useSelector,useDispatch } from 'react-redux';
+import { login } from '../store/actions/appActions';
+import { androidClientId ,facebookAppId} from "../helpers/authIds";
 import {
   StyleSheet,
   Text,
   View,
   ActivityIndicator,
   TextInput,
-  StatusBar,
   Keyboard,
   TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
+
 import { Icon } from 'react-native-elements';
 import * as Google from 'expo-google-app-auth';
 import * as Facebook from 'expo-facebook';
@@ -25,16 +28,17 @@ export default function LoginScreen(props) {
   const [isLoadingFacebook,setIsLoadingFacebook] = useState(false);
   const [error,setError] = useState("")
   const [valid,setValid] = useState(true)
-
+  const dispatchAction = useDispatch();
   const handleGoogleAuth = ()=>{
     const config = {
-      androidClientId : 'appId',
+      androidClientId : androidClientId,
       scopes:['profile','email']
     };
     Google.logInAsync(config).then((res)=>{
       const {type,user} = res;
       if(type == 'success'){
-        console.log(user);
+        console.log(user.name);
+        dispatchAction(login({name:user.name,id:user.id}));
         props.navigation.navigate({
           routeName: 'PreviousBillsScreen',
           params: {}
@@ -51,7 +55,7 @@ export default function LoginScreen(props) {
   }
 
   const handleFacebookAuth = async()=>{
-    const appId = 'appId';
+    const appId = facebookAppId;
       try {
         await Facebook.initializeAsync({
           appId: appId,
@@ -67,7 +71,9 @@ export default function LoginScreen(props) {
         });
         if (type === 'success') {
           const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
-          console.log(response);
+          const body = await response.json();
+          console.log(body,expirationDate,permissions,declinedPermissions);
+          dispatchAction(login(body));
           props.navigation.navigate({
             routeName: 'PreviousBillsScreen',
             params: {}
@@ -92,8 +98,8 @@ export default function LoginScreen(props) {
     >
       <View style={styles.container}>
         <Text style={styles.welcomeText}>Hello There!</Text>
-        <View style={{backgroundColor:'#307fc9',padding:30,alignSelf:'center',borderRadius:100,width:170,marginTop:40}}>
-            <Icon size={100} type='fontisto' name='mic' color='white'/>
+        <View style={{backgroundColor:'#307fc9',padding:40,alignSelf:'center',borderRadius:80,width:160,height:160,marginTop:40}}>
+            <Icon size={80} type='fontisto' name='mic' color='white'/>
         </View>
         <Text style={styles.loginText}>{isRegistered?"Login":"Register"}</Text>
         <TextInput
