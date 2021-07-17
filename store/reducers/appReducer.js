@@ -8,8 +8,8 @@ const initialState = {
 const appReducer = (state = initialState, action)=>{
     switch(action.type){
         case LOGIN:{
-            console.log("reducer",state.payload)
             const newState = action.payload;
+            console.log("reducer", { ...newState, bills: [] });
             return {...newState,bills:[]};
         }
         case LOGOUT:{

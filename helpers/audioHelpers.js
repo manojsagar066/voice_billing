@@ -1,4 +1,5 @@
 import { Audio } from 'expo-av';
+import {Alert} from 'react-native';
 import * as FileSystem from 'expo-file-system';
 export const startRecordingAudio = async(setUri,setRecording)=>{
     setUri('')
@@ -29,21 +30,36 @@ export const startRecordingAudio = async(setUri,setRecording)=>{
     }
   }
 
-  export const stopRecordingAudio = async(setUri,setRecording,recording,base64,setbase64) =>{
-    console.log('Stopping recording..');
+  export const stopRecordingAudio = async (
+    setUri,
+    setRecording,
+    recording,
+    setBillData,
+    setIsRes,
+    setVoiceData
+  ) => {
+    setIsRes(true)
+    console.log("Stopping recording..");
     setRecording(undefined);
     await recording.stopAndUnloadAsync();
-    const uri = recording.getURI(); 
-    setUri(uri);const base = await FileSystem.readAsStringAsync(uri, { encoding: 'base64' });
-    setbase64(base);
-    console.log('Recording stopped and stored at', uri);
-    fetch("http://192.168.43.125:5000/additem", {
+    const uri = recording.getURI();
+    setUri(uri);
+    const base = await FileSystem.readAsStringAsync(uri, {
+      encoding: "base64",
+    });
+    console.log("Recording stopped and stored at", uri,` ${base.length}`);
+    fetch("https://shielded-reef-50986.herokuapp.com/additem", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({"string":base}),
-    }).then((res)=>res.json()).then((data)=>{
-      console.log(data);
-    });
-  }
+      body: JSON.stringify({ string: base }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setIsRes(false);
+        setVoiceData(data["text"]);
+        Alert.alert('hhj','hhh');
+      });
+  };

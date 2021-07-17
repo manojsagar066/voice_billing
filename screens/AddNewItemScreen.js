@@ -13,6 +13,23 @@ function AddNewItemScreen() {
         </View>
     )
 }
+AddNewItemScreennavigationOptions = (navigationData) => {
+  return {
+    headerRight: () => {
+      return (
+        <TouchableOpacity>
+          <Icon
+            style={{ marginRight: 10 }}
+            name="logout"
+            type="material"
+            size={30}
+            color="#808e9b"
+          />
+        </TouchableOpacity>
+      );
+    },
+  };
+};
 const styles = StyleSheet.create({
     mainContainer:{
         flex:1,

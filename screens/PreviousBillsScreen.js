@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import { useSelector} from 'react-redux';
+import { useSelector,useDispatch} from 'react-redux';
 import {
     StyleSheet,
     Text,TextInput,
@@ -11,10 +11,10 @@ import {
 function PreviousBillsScreen(props) {
     const [customer,setCustomer] = useState('');
     const [isModalVisible,setIsModalVisible] = useState(false);
+    const dispatch = useDispatch()
     const selector = useSelector((state)=>state.app);
     return (
         <View style={styles.mainContainer}>
-            <Text>{selector.name}</Text>
             <Text>
                 Previous Bills Screen
             </Text>
@@ -31,7 +31,8 @@ function PreviousBillsScreen(props) {
                     props.navigation.navigate({
                     routeName: 'NewBillScreen',
                     params: {
-                      customerName:customer
+                      customerName:customer,
+                      dispatcher:dispatch
                     }
                     });
                   }}/>

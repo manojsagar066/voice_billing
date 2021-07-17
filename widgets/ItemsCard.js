@@ -10,17 +10,22 @@ function ItemsCard(props) {
                     {
                         text:'Delete',
                         onPress:()=>{
-                            setBillData((prevBill)=>{
-                                return prevBill.filter((value, index, arr)=>{
-                                    console.log(value);
-                                    return value.title !== title;
+                            console.log(title);
+                            setBillData((prevBill)=>prevBill.filter((value, index, arr)=>{
+                                    console.log(value, value.item !== title);
+                                    return (
+                                      value.item.toLowerCase() !==
+                                      title.toLowerCase()
+                                    );
                                 })
-                            })
+                            )
                         }
                     },
                     {
                         text:'Cancel',
-                        onPress:()=>{}
+                        onPress:()=>{
+                            console.log("boom");
+                        }
                     }
                 ],{
                     cancelable:true
