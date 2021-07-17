@@ -34,7 +34,6 @@ from app import routes
 
 from audio_processing import routes
 
-from database import routes
 
 
 
