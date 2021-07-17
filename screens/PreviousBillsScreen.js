@@ -13,6 +13,7 @@ function PreviousBillsScreen(props) {
     const [isModalVisible,setIsModalVisible] = useState(false);
     const dispatch = useDispatch()
     const selector = useSelector((state)=>state.app);
+    console.log(selector)
     return (
         <View style={styles.mainContainer}>
             <Text>
