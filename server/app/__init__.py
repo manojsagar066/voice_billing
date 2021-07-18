@@ -12,6 +12,8 @@ app = Flask(__name__)
 client = MongoClient("mongodb+srv://RFIDpayments:Ff6RfZyRN5arkgvz@payments-ukurt.mongodb.net/test?retryWrites=true&w=majority")
 db = client["voice_bill"]
 collection = db["system_users"]
+item_collection = db["items"]
+
 
 @app.route("/fetch", methods=["POST"])
 def fetch_user_data():
@@ -29,7 +31,29 @@ def fetch_user_data():
         return data_json
     else:
         return data_json
-    
+
+@app.route("/add", methods=["POST"])
+def add_item():
+    inputs = request.get_json(force=True)
+    name=inputs["name"]
+    company = inputs["company"]
+    price = inputs["price"]
+    data = item_collection.find({"name":name})
+    data_list = list(data)
+    dic = dict(data_list[0])
+    #check whether item exists
+    n = len(dic['company'])
+    for i in range(n):
+        if company == dic['company'][i]['c_name']:
+            return "item already exist"
+
+    #add new item
+    dic['company'].append({'c_name':company,'price':float(price),'quantity':1.0})
+    item_collection.replace_one({"name":name},dic)
+    return "new item added"
+
+
+
 from app import routes
 
 from audio_processing import routes
