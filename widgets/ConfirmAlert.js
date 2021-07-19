@@ -1,7 +1,7 @@
 import React from 'react'
 import {View,Alert} from 'react-native';
 
-function ConfirmAlert(navigation,title,message) {
+function ConfirmAlert(navigation,title,message,data) {
   console.log(title === 'Cancel')
   if(title === 'Cancel'){
     return (
@@ -38,9 +38,16 @@ function ConfirmAlert(navigation,title,message) {
               {
                 text: "Confirm",
                 onPress: ()=>{
+                    console.log(data);
                     navigation.navigate({
-                        routeName: 'PreviousBillsScreen',
-                        params: {}
+                      routeName: "ViewBill",
+                      params: { 
+                        data: data 
+                      },
+                      // params: {
+                      //   customerName: customer,
+                      //   dispatcher: dispatch,
+                      // },
                     });
                 },
               },
