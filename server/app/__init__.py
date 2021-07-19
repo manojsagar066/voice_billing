@@ -12,7 +12,7 @@ app = Flask(__name__)
 client = MongoClient("mongodb+srv://RFIDpayments:Ff6RfZyRN5arkgvz@payments-ukurt.mongodb.net/test?retryWrites=true&w=majority")
 db = client["voice_bill"]
 collection = db["system_users"]
-item_collection = db["items"]
+item_collection = db["items_description"]
 
 
 @app.route("/fetch", methods=["POST"])
@@ -32,48 +32,66 @@ def fetch_user_data():
     else:
         return data_json
 
+@app.route("/bill", methods=['POST'])
+def fetch_bill():
+    inputs = request.get_json(force=True)
+    test = inputs["test"]
+    collection = item_collection.find()
+    col_list = list(collection)
+    col_json = dumps(col_list)
+    print(col_json)
+    return "macha function bari"
+
 @app.route("/add", methods=["POST"])
 def add_item():
     inputs = request.get_json(force=True)
     name=inputs["name"]
-    company = inputs["company"]
+    quantity = inputs["quantity"]
+    unit = inputs["unit"]
     price = inputs["price"]
-    units = inputs["units"]
-    data = item_collection.find({"name":name})
-    data_list = list(data)
-    #if prduct found
-    if data_list != []:
-        dic = dict(data_list[0])
-        #if company not specified
-        if company == "":
-            dic["price"]=price
-            dic["units"]=units
-            print(dic)
-            item_collection.replace_one({"name":name}, dic)
-            return {"response":"item added"}
-
-        #if product already exists
-        n = len(dic['company'])
-        for i in range(n):
-            if company == dic['company'][i]['c_name']:
-                return {"response":"item already exist"}
-
-        #adding new item
-        dic['company'].append({'c_name':company,'price':float(price),'quantity':1.0})
-        item_collection.replace_one({"name":name},dic)
-        return {"response":"item added"}
-    #ading new product
-    else:
-        #if company not specified
-        if company=="":
-            item_collection.insert({"name":name, "company":[],"price":price,"units":units})
-            return {"response":"new item added"}
-
-        else:
-            item_collection.insert({"name":name, "company":[{"c_name":company,"price":price,"quantity":1.0}]})
-            return {"response":"new item with new company added"}
+    data = item_collection.insert({"name":name,"quantity":quantity,"unit":unit,"price":price,"frequency":0})
+    return {"response":"new item added"}
 
 
+
+    # inputs = request.get_json(force=True)
+    # name=inputs["name"]
+    # company = inputs["company"]
+    # price = inputs["price"]
+    # units = inputs["units"]
+    # data = item_collection.find_one({"name":name})
+    
+    # #if prduct found
+    # if data_list != []:
+    #     dic = dict(data_list[0])
+    #     #if company not specified
+    #     if company == "":
+    #         dic["price"]=price
+    #         dic["units"]=units
+    #         print(dic)
+    #         item_collection.replace_one({"name":name}, dic)
+    #         return {"response":"item added"}
+
+    #     #if product already exists
+    #     n = len(dic['company'])
+    #     for i in range(n):
+    #         if company == dic['company'][i]['c_name']:
+    #             return {"response":"item already exist"}
+
+    #     #adding new item
+    #     dic['company'].append({'c_name':company,'price':float(price),'quantity':1.0})
+    #     item_collection.replace_one({"name":name},dic)
+    #     return {"response":"item added"}
+    # #ading new product
+    # else:
+    #     #if company not specified
+    #     if company=="":
+    #         item_collection.insert({"name":name, "company":[],"price":price,"units":units})
+    #         return {"response":"new item added"}
+
+    #     else:
+    #         item_collection.insert({"name":name, "company":[{"c_name":company,"price":price,"quantity":1.0}]})
+    #         return {"response":"new item with new company added"}
 
 
 from app import routes
