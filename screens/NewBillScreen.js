@@ -43,12 +43,30 @@ function NewBillScreen(props) {
                       setIsRes,
                       setVoiceData
                     );
-                    setBillData((prev)=>prev.concat([
-                      { item: "Groundnut Oil", quantity: 2, cost: 20.6 },
-                      { item: "Coconut Oil", quantity: 1, cost: 56 },
-                      { item: "Sugar", quantity: 1, cost: 45 },
-                      { item: "Rava", quantity: 2, cost: 76 },
-                    ]));
+                    setBillData((prev) =>
+                      prev.concat([
+                        { item: "Groundnut Oil", quantity: 2, cost: 20.6 },
+                        { item: "Coconut Oil", quantity: 1, cost: 56 },
+                        { item: "Sugar", quantity: 1, cost: 45 },
+                        { item: "Rava", quantity: 2, cost: 76 },
+                        { item: "Groundnut Oil", quantity: 2, cost: 20.6 },
+                        { item: "Coconut Oil", quantity: 1, cost: 56 },
+                        { item: "Sugar", quantity: 1, cost: 45 },
+                        { item: "Rava", quantity: 2, cost: 76 },
+                        { item: "Groundnut Oil", quantity: 2, cost: 20.6 },
+                        { item: "Coconut Oil", quantity: 1, cost: 56 },
+                        { item: "Sugar", quantity: 1, cost: 45 },
+                        { item: "Rava", quantity: 2, cost: 76 },
+                        { item: "Groundnut Oil", quantity: 2, cost: 20.6 },
+                        { item: "Coconut Oil", quantity: 1, cost: 56 },
+                        { item: "Sugar", quantity: 1, cost: 45 },
+                        { item: "Rava", quantity: 2, cost: 76 },
+                        { item: "Groundnut Oil", quantity: 2, cost: 20.6 },
+                        { item: "Coconut Oil", quantity: 1, cost: 56 },
+                        { item: "Sugar", quantity: 1, cost: 45 },
+                        { item: "Rava", quantity: 2, cost: 76 },
+                      ])
+                    );
                     setBillTotal(0);
                     if(billData.length > 0){
                         billData.forEach((val) => {
@@ -77,7 +95,8 @@ function NewBillScreen(props) {
               ConfirmAlert(
                 props.navigation,
                 "Cancel",
-                "You want to cancel this bill?"
+                "You want to cancel this bill?",
+                []
               );
             }}
           >
@@ -89,7 +108,8 @@ function NewBillScreen(props) {
               ConfirmAlert(
                 props.navigation,
                 "Confirm",
-                "Do you want to confirm this bill or do you want to recheck"
+                "Do you want to confirm this bill or do you want to recheck",
+                billData
               );
             }}
           >

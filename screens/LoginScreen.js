@@ -26,27 +26,47 @@ export default function LoginScreen(props) {
   const [isLoadingGoogle,setIsLoadingGoogle] = useState(false);
   const [isLoadingFacebook,setIsLoadingFacebook] = useState(false);
   const dispatchAction = useDispatch();
-  const handleGoogleAuth = ()=>{
+  const sendToServer = async(username,id)=>{
+        const res = await fetch(
+          "https://shielded-reef-50986.herokuapp.com/fetch",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ _id: id, username: username }),
+          }
+        );
+        return res.json();
+//      {
+//   "email": "prajwalshiv.04@gmail.com",
+//   "familyName": "Ponnana",
+//   "givenName": "Prajwal",
+//   "id": "104992273790346816622",
+//   "name": "Prajwal Ponnana",
+//   "photoUrl": "https://lh3.googleusercontent.com/a-/AOh14GjZg2HFKFaYplVRoeecIrY15v1Q2fYx8oY3zJe5KZY=s96-c",
+// }
+  }
+  const handleGoogleAuth = async()=>{
     setIsLoadingGoogle(true);
     const config = {
       androidClientId : androidClientId,
       scopes:['profile','email']
     };
-    Google.logInAsync(config).then((res)=>{
-      const {type,user} = res;
-      if(type == 'success'){
-        dispatchAction(login({name:user.name,id:user.id}));
-        props.navigation.navigate({
-          routeName: "MainNavigator",
-        });
-      }else{
-
-      }
-      setIsLoadingGoogle(false);
-    }).catch((err)=>{
-      console.log(err);
-      setIsLoadingGoogle(false);
-    });
+    const res = await Google.logInAsync(config);
+    const {type,user} = res;
+    if (type == "success") {
+      const res = await sendToServer(user.name, user.id);
+      dispatchAction(
+        login({ name: res[0].username, id: res[0]._id, bills: res[0]["bills"] })
+      );
+      props.navigation.navigate({
+        routeName: "MainNavigator",
+      });
+    } else {
+    }
+    setIsLoadingGoogle(false);
+    
   }
 
   const handleFacebookAuth = async()=>{
@@ -66,8 +86,16 @@ export default function LoginScreen(props) {
         });
         if (type === 'success') {
           const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
-          const body = await response.json();
-          dispatchAction(login(body));
+          const user = await response.json();
+          const res = await sendToServer(user.name, user.id);
+          console.log(res);
+          dispatchAction(
+            login({
+              name: res[0].username,
+              id: res[0]._id,
+              bills: res[0]["bills"],
+            })
+          );
           props.navigation.navigate({
             routeName: 'MainNavigator',
           });

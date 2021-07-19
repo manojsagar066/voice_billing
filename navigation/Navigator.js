@@ -8,6 +8,7 @@ import LoginScreen from '../screens/LoginScreen';
 import NewBillScreen from '../screens/NewBillScreen';
 import PreviousBillsScreen from '../screens/PreviousBillsScreen';
 import AddNewItemScreen from '../screens/AddNewItemScreen';
+import ViewBill from '../screens/ViewBill';
 const AddNewNavigator = createStackNavigator(
   {
     AddNewItemScreen: {
@@ -50,6 +51,9 @@ const AppNavigator = createStackNavigator(
     },
     NewBillScreen: {
       screen: NewBillScreen,
+    },
+    ViewBill: {
+      screen: ViewBill,
     },
   },
   {
