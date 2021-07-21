@@ -56,4 +56,9 @@ Start the server
   python app.py
 ```
 
+## Feedback
+
+If you have any feedback, please reach out to us at nithinag10@gmail.com or manojsagar066@gmail.com or prajwalshiv.04@gmail.com
+
+  
   
