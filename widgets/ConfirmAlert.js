@@ -1,8 +1,10 @@
 import React from 'react'
 import {View,Alert} from 'react-native';
 
-function ConfirmAlert(navigation,title,message,data) {
-  console.log(title === 'Cancel')
+function ConfirmAlert(navigation,title,message,data,total,clearData,clearTotal,customerName) {
+  const bill = data;
+  const billTotal = total;
+  // console.log(title === 'Cancel')
   if(title === 'Cancel'){
     return (
       Alert.alert(
@@ -12,6 +14,8 @@ function ConfirmAlert(navigation,title,message,data) {
             {
               text: "Cancel",
               onPress: ()=>{
+                  clearData([]);
+                  clearTotal(0)
                   navigation.navigate({
                       routeName: 'PreviousBillsScreen',
                       params: {}
@@ -38,17 +42,18 @@ function ConfirmAlert(navigation,title,message,data) {
               {
                 text: "Confirm",
                 onPress: ()=>{
-                    console.log(data);
-                    navigation.navigate({
-                      routeName: "ViewBill",
-                      params: { 
-                        data: data 
-                      },
-                      // params: {
-                      //   customerName: customer,
-                      //   dispatcher: dispatch,
-                      // },
-                    });
+                  
+                    clearData([]),
+                    clearTotal(0),
+                      navigation.navigate({
+                        routeName: "ViewBill",
+                        params: {
+                          data: bill,
+                          total: billTotal,
+                          customerName:customerName,
+                          from:'newBills'
+                        },
+                      });
                 },
               },
             ],

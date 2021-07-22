@@ -1,7 +1,7 @@
 import React from 'react'
 import {View,Text,StyleSheet,Dimensions,TouchableOpacity,Alert} from 'react-native';
 function ItemsCard(props) {
-    const {title,quantity,cost,setBillData} = props;
+    const {title,quantity,cost,setBillData,units,setTotal} = props;
     return (
         
         <View style={styles.card}>
@@ -10,11 +10,23 @@ function ItemsCard(props) {
                     {
                         text:'Delete',
                         onPress:()=>{
-                            console.log(title);
+                            // console.log(title);
                             setBillData((prevBill)=>prevBill.filter((value, index, arr)=>{
-                                    console.log(value, value.item !== title);
+                                    // console.log(
+                                    //   value,
+                                    //   value["Item Name"] !== title
+                                    // );
+                                    if (
+                                      value["Item Name"].toLowerCase() ===
+                                      title.toLowerCase()
+                                    ) {
+                                      setTotal((prev) => {
+                                        //   console.log(value["Price ₹"]);
+                                          return prev - (value["Price ₹"]/2);
+                                      });
+                                    }
                                     return (
-                                      value.item.toLowerCase() !==
+                                      value["Item Name"].toLowerCase() !==
                                       title.toLowerCase()
                                     );
                                 })
@@ -24,7 +36,6 @@ function ItemsCard(props) {
                     {
                         text:'Cancel',
                         onPress:()=>{
-                            console.log("boom");
                         }
                     }
                 ],{
@@ -33,11 +44,11 @@ function ItemsCard(props) {
             }}>
             <View style={styles.rowContainer}>
                 <View>
-                <Text style={styles.text}>{title}</Text>
-                <Text style={[styles.subtext]}>{`${quantity}`}</Text>
+                <Text style={styles.text}>{title.charAt(0).toUpperCase() + title.slice(1) }</Text>
+                <Text style={[styles.subtext]}>{`${quantity}${units}`}</Text>
                 </View>
                 <View  style={[styles.cost]}>
-                <Text style={{color:'white',fontSize:20,}}>{`₹${cost}`}</Text>
+                <Text style={{color:'white',alignSelf:'center',paddingVertical:20,fontSize:15}}>{`₹${cost}`}</Text>
                 </View>
             </View>
             </TouchableOpacity>
@@ -67,7 +78,7 @@ const styles = StyleSheet.create({
         justifyContent:'space-between',
     },
     text:{
-        fontSize:20,
+        fontSize:22,
         paddingHorizontal:5,
         paddingBottom:5,
         paddingTop:10,
@@ -77,6 +88,7 @@ const styles = StyleSheet.create({
         paddingHorizontal:5,
         paddingBottom:10,
         paddingTop:5,
+        color:'grey'
     },
     cost:{
         height:60,
@@ -84,8 +96,6 @@ const styles = StyleSheet.create({
         backgroundColor:'#307fc9',
         borderRadius:30,
         marginTop:5,
-        paddingVertical:15,
-        paddingHorizontal:8
     }
 
 });

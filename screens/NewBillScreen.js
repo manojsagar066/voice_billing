@@ -2,10 +2,11 @@ import React, { useState,useEffect } from 'react';
 import {StyleSheet,Text,View,TouchableOpacity} from 'react-native';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
 import { useSelector} from 'react-redux';
-import { startRecordingAudio,stopRecordingAudio} from '../helpers/audioHelpers';
+import { startRecordingAudio,stopRecordingAudio, stopRecordingAudio2} from '../helpers/audioHelpers';
 import ConfirmAlert from '../widgets/ConfirmAlert';
 import Recording from '../widgets/Recording';
 import { logout } from '../store/actions/appActions';
+import { Alert } from 'react-native';
 function NewBillScreen(props) {
     // const selector = useSelector((state)=>state.app);
     const [uri,setUri] = useState("");
@@ -15,18 +16,21 @@ function NewBillScreen(props) {
     const [recording, setRecording] = useState();
     const [billData,setBillData] = useState([]);
     const [billTotal,setBillTotal] = useState(0);
+    const customerName = props.navigation.getParam("customerName");
+    
     return (
+      
       <View style={styles.mainContainer}>
-        <Text>{isRes ? "true" : "false"}</Text>
         <View style={styles.billContainer}>
           <Recording
             isRec={isRec}
-            voiceData={voiceData}
+            render={billData.length > 0}
             isRes={isRes}
             billData={billData}
             billTotal={billTotal}
-            setBillData = {setBillData}
-            customerName={props.navigation.getParam("customerName")}
+            setBillData={setBillData}
+            setTotal={setBillTotal}
+            customerName={customerName}
           />
         </View>
         <View style={styles.mic}>
@@ -35,44 +39,14 @@ function NewBillScreen(props) {
               recording
                 ? async () => {
                     setRec(false);
-                    await stopRecordingAudio(
+                    await stopRecordingAudio2(
                       setUri,
                       setRecording,
                       recording,
                       setBillData,
                       setIsRes,
-                      setVoiceData
+                      setBillTotal
                     );
-                    setBillData((prev) =>
-                      prev.concat([
-                        { item: "Groundnut Oil", quantity: 2, cost: 20.6 },
-                        { item: "Coconut Oil", quantity: 1, cost: 56 },
-                        { item: "Sugar", quantity: 1, cost: 45 },
-                        { item: "Rava", quantity: 2, cost: 76 },
-                        { item: "Groundnut Oil", quantity: 2, cost: 20.6 },
-                        { item: "Coconut Oil", quantity: 1, cost: 56 },
-                        { item: "Sugar", quantity: 1, cost: 45 },
-                        { item: "Rava", quantity: 2, cost: 76 },
-                        { item: "Groundnut Oil", quantity: 2, cost: 20.6 },
-                        { item: "Coconut Oil", quantity: 1, cost: 56 },
-                        { item: "Sugar", quantity: 1, cost: 45 },
-                        { item: "Rava", quantity: 2, cost: 76 },
-                        { item: "Groundnut Oil", quantity: 2, cost: 20.6 },
-                        { item: "Coconut Oil", quantity: 1, cost: 56 },
-                        { item: "Sugar", quantity: 1, cost: 45 },
-                        { item: "Rava", quantity: 2, cost: 76 },
-                        { item: "Groundnut Oil", quantity: 2, cost: 20.6 },
-                        { item: "Coconut Oil", quantity: 1, cost: 56 },
-                        { item: "Sugar", quantity: 1, cost: 45 },
-                        { item: "Rava", quantity: 2, cost: 76 },
-                      ])
-                    );
-                    setBillTotal(0);
-                    if(billData.length > 0){
-                        billData.forEach((val) => {
-                          setBillTotal((prev) => prev + val.cost);
-                        });
-                    } 
                   }
                 : () => {
                     setRec(true);
@@ -88,7 +62,7 @@ function NewBillScreen(props) {
             />
           </TouchableOpacity>
         </View>
-        <View style={styles.buttonRow}>
+        {!isRec && !isRes? <View style={styles.buttonRow}>
           <TouchableOpacity
             style={styles.button1}
             onPress={() => {
@@ -96,7 +70,11 @@ function NewBillScreen(props) {
                 props.navigation,
                 "Cancel",
                 "You want to cancel this bill?",
-                []
+                billData,
+                billTotal,
+                setBillTotal,
+                setBillData,
+                customerName
               );
             }}
           >
@@ -105,17 +83,25 @@ function NewBillScreen(props) {
           <TouchableOpacity
             style={styles.button2}
             onPress={() => {
-              ConfirmAlert(
-                props.navigation,
-                "Confirm",
-                "Do you want to confirm this bill or do you want to recheck",
-                billData
-              );
+              if (billTotal == 0) {
+                Alert.alert("Bill empty", "You haven't started the billing");
+              } else {
+                ConfirmAlert(
+                  props.navigation,
+                  "Confirm",
+                  "Do you want to confirm this bill or do you want to recheck",
+                  billData,
+                  billTotal,
+                  setBillTotal,
+                  setBillData,
+                  customerName
+                );
+              }
             }}
           >
             <Text style={styles.buttonText}>Confirm</Text>
           </TouchableOpacity>
-        </View>
+        </View> :<View/>}
       </View>
     );
 }

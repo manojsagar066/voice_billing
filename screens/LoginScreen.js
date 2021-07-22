@@ -5,7 +5,7 @@ import { androidClientId ,facebookAppId} from "../helpers/authIds";
 import {
   StyleSheet,
   Text,ScrollView,
-  View,
+  View,Alert,
   ActivityIndicator,
   TextInput,
   Keyboard,
@@ -16,7 +16,6 @@ import { Icon } from 'react-native-elements';
 import * as Google from 'expo-google-app-auth';
 import * as Facebook from 'expo-facebook';
 
-
 export default function LoginScreen(props) {
   const [email,updateEmail] = useState("");
   const [password,updatePassword] = useState("");
@@ -26,29 +25,28 @@ export default function LoginScreen(props) {
   const [isLoadingGoogle,setIsLoadingGoogle] = useState(false);
   const [isLoadingFacebook,setIsLoadingFacebook] = useState(false);
   const dispatchAction = useDispatch();
-  const sendToServer = async(username,id)=>{
-        const res = await fetch(
-          "https://shielded-reef-50986.herokuapp.com/fetch",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ _id: id, username: username }),
-          }
-        );
+  const sendToServer = async(username,id,navigation)=>{
+        try{
+          const res = await fetch(
+            "https://shielded-reef-50986.herokuapp.com/fetch",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ _id: id, username: username }),
+            }
+          );
         return res.json();
-//      {
-//   "email": "prajwalshiv.04@gmail.com",
-//   "familyName": "Ponnana",
-//   "givenName": "Prajwal",
-//   "id": "104992273790346816622",
-//   "name": "Prajwal Ponnana",
-//   "photoUrl": "https://lh3.googleusercontent.com/a-/AOh14GjZg2HFKFaYplVRoeecIrY15v1Q2fYx8oY3zJe5KZY=s96-c",
-// }
+        }
+        catch(error){
+          throw error;
+          
+        }
   }
   const handleGoogleAuth = async()=>{
-    setIsLoadingGoogle(true);
+    try{
+      setIsLoadingGoogle(true);
     const config = {
       androidClientId : androidClientId,
       scopes:['profile','email']
@@ -56,9 +54,10 @@ export default function LoginScreen(props) {
     const res = await Google.logInAsync(config);
     const {type,user} = res;
     if (type == "success") {
-      const res = await sendToServer(user.name, user.id);
+      const res = await sendToServer(user.name, user.id,props.navigation);
+      // console.log("logged in",res[0],res[1])
       dispatchAction(
-        login({ name: res[0].username, id: res[0]._id, bills: res[0]["bills"] })
+        login({ name: res[0].username, id: res[0]._id, bills: res[1] })
       );
       props.navigation.navigate({
         routeName: "MainNavigator",
@@ -66,49 +65,65 @@ export default function LoginScreen(props) {
     } else {
     }
     setIsLoadingGoogle(false);
-    
+    }
+    catch(error){
+      Alert.alert("Error", "Something went wrong please check your network");
+      setIsLoadingGoogle(false);
+      props.navigation.navigate({
+        routeName: "LoginScreen",
+      });
+    }
   }
 
   const handleFacebookAuth = async()=>{
-    const appId = facebookAppId;
+    try{
+      const appId = facebookAppId;
       try {
         await Facebook.initializeAsync({
           appId: appId,
         });
-        const {
-          type,
-          token,
-          expirationDate,
-          permissions,
-          declinedPermissions,
-        } = await Facebook.logInWithReadPermissionsAsync({
-          permissions: ['public_profile'],
+        const { type, token } = await Facebook.logInWithReadPermissionsAsync({
+          permissions: ["public_profile"],
         });
-        if (type === 'success') {
-          const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
-          const user = await response.json();
-          const res = await sendToServer(user.name, user.id);
-          console.log(res);
-          dispatchAction(
-            login({
-              name: res[0].username,
-              id: res[0]._id,
-              bills: res[0]["bills"],
-            })
+        if (type === "success") {
+          const response = await fetch(
+            `https://graph.facebook.com/me?access_token=${token}`
           );
+          const user = await response.json();
+          const res = await sendToServer(user.name, user.id, props.navigation);
+          // console.log("logged in", res[0], res[1]);
+          const userData = {
+            name: res[0].username,
+            id: res[0]._id,
+            bills: res[1],
+          };
+          dispatchAction(login(userData));
           props.navigation.navigate({
-            routeName: 'MainNavigator',
+            routeName: "MainNavigator",
           });
         } else {
           // type === 'cancel'
         }
         setIsLoadingFacebook(false);
       } catch ({ message }) {
+        Alert.alert("Error", "Something went wrong please try again");
+        setIsLoadingGoogle(false);
+        props.navigation.navigate({
+          routeName: "LoginScreen",
+        });
         setIsLoadingFacebook(false);
-        console.log(`Facebook Login Error: ${message}`);
+        // console.log(`Facebook Login Error: ${message}`);
       }
     }
-    
+    catch(error){
+       Alert.alert("Error", "Something went wrong please check your network");
+       setIsLoadingGoogle(false);
+       props.navigation.navigate({
+         routeName: "LoginScreen",
+       });
+    }
+    }
+  
   return (
     <ScrollView
       style={{

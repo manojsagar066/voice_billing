@@ -5,7 +5,17 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "plugins": [
+      "expo-contacts"
+    ],
+    "android": {
+      "permissions": [
+        "android.permission.READ_CONTACTS",
+        "android.permission.WRITE_CONTACTS"
+      ],
+      "package": "com.ppo004.voiceBillerApp"
+    }
   },
   "name": "voiceBillerApp"
 }
