@@ -1,11 +1,20 @@
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import React from 'react';
-import LoginScreen from './screens/LoginScreen';
+import appReducer from './store/reducers/appReducer';
+import { createStore, combineReducers } from "redux";
+import {Provider} from 'react-redux';
 import Navigator from './navigation/Navigator';
+
+const rootReducer = combineReducers({
+  app:appReducer,
+});
+
+const store = createStore(rootReducer);
+
 export default function App() {
-  
   return (
-    <Navigator/>
+    <Provider store={store}>
+      <Navigator/>
+    </Provider>
   );
 }
 
