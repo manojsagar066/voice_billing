@@ -48,13 +48,13 @@ class Text_processor:
 
 class Bill_calculator:
 
-    def __init__(self , bill_token):
+    def __init__(self,bill_token):
         self.tokens = bill_token
         self.quantity = None
         self.units = None
         self.string = None
         self.items = None
-        # self.textscore = ""
+        self.textscore = ""
 
     def fetch_item(self):
         tokens = self.tokens[1: len(self.tokens)]
