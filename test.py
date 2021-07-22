@@ -1,6 +1,0 @@
-[{"_id": "104992273790346816622", "username": "Prajwal Ponnana"}, 
-[{"_id": {"$oid": "60f2e275e5348ec1dbbd9cac"}, "customer": "manoj", "total": "500", "items": [{"item_name": "sugar", "quantity": "2", "cost": "200"}],"userId": "104992273790346816622"},
-{"_id": {"$oid": "60f8303cfae6f72d68cb3371"}, "customer": "nithin", "total": "400", "items": [{"item_name": "sugar", "quantity": "2", "cost": "200"}], "userId": "104992273790346816622"},
-{"_id": {"$oid": "60f83f7e0dd10e459ecad30b"}, "customer": "ajay", "total": 400, "items": [{"item_name": "sugar", "quantity": "2", "cost": "200"}],"userId": "104992273790346816622"},
-{"_id": {"$oid": "60f8d979a1815bd4ddc7cb3b"}, "customer": "Manoj", "total": 555, "items": [{"Item Name": "mtr gulab jamun", "Price \u20b9": 520, "Quantity": "1", "Units": "kg"}, {"Item Name": "steam rice", "Price \u20b9": 35, "Quantity": "1", "Units": "kg"}],"userId": "104992273790346816622"},
-{"_id": {"$oid": "60f8d98fa1815bd4ddc7cb3c"}, "customer": "Manoj", "total": 555, "items": [{"Item Name": "mtr gulab jamun", "Price \u20b9": 520, "Quantity": "1", "Units": "kg"}, {"Item Name": "steam rice", "Price \u20b9": 35, "Quantity": "1", "Units": "kg"}], "userId": "104992273790346816622"}]]
