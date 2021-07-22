@@ -1,5 +1,4 @@
-import React, { createRef } from "react";
-import { Icon } from "react-native-elements";
+import React, { createRef,useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,9 +7,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import takeScreenGrab from "../helpers/screenShotHelper";
+import { useSelector } from "react-redux";
 const ViewBill = (props) => {
   const billRef = createRef();
-
+  const state = useSelector(state => state.app);
+  const [loading,isLoading] = useState(false);
   const renderData = () => {
     const data = props.navigation.state.params.data;
     let ans = [];
@@ -46,9 +47,9 @@ const ViewBill = (props) => {
       </ScrollView>
       <View style={styles.billButton}>
         <TouchableOpacity onPress={()=>{
-          takeScreenGrab(billRef,props.navigation)
+          takeScreenGrab(isLoading,billRef,props.navigation,state.id,props.navigation.state.params.customerName,props.navigation.state.params.data,props.navigation.state.params.total)
         }}>
-          <Icon name="share" type="fontisto" size={20} color="white" />
+          <Text style={{color:'white'}}>Done</Text>
         </TouchableOpacity>
       </View>
     </View>

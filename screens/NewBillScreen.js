@@ -19,6 +19,7 @@ function NewBillScreen(props) {
     const [recording, setRecording] = useState();
     const [billData,setBillData] = useState([]);
     const [billTotal,setBillTotal] = useState(0);
+    const customerName = props.navigation.getParam("customerName");
     return (
       <View style={styles.mainContainer}>
         <View style={styles.billContainer}>
@@ -29,8 +30,8 @@ function NewBillScreen(props) {
             billData={billData}
             billTotal={billTotal}
             setBillData={setBillData}
-            setTotal = {setBillTotal}
-            customerName={props.navigation.getParam("customerName")}
+            setTotal={setBillTotal}
+            customerName={customerName}
           />
         </View>
         <View style={styles.mic}>
@@ -73,7 +74,8 @@ function NewBillScreen(props) {
                 billData,
                 billTotal,
                 setBillTotal,
-                setBillData
+                setBillData,
+                customerName
               );
             }}
           >
@@ -92,7 +94,8 @@ function NewBillScreen(props) {
                   billData,
                   billTotal,
                   setBillTotal,
-                  setBillData
+                  setBillData,
+                  customerName
                 );
               }
             }}

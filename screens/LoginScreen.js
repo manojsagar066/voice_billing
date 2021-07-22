@@ -27,25 +27,14 @@ export default function LoginScreen(props) {
   const [isLoadingFacebook,setIsLoadingFacebook] = useState(false);
   const dispatchAction = useDispatch();
   const sendToServer = async(username,id)=>{
-        const res = await fetch(
-          "https://shielded-reef-50986.herokuapp.com/fetch",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ _id: id, username: username }),
-          }
-        );
+        const res = await fetch("http://192.168.43.125:5000/fetch", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ _id: id, username: username }),
+        });
         return res.json();
-//      {
-//   "email": "prajwalshiv.04@gmail.com",
-//   "familyName": "Ponnana",
-//   "givenName": "Prajwal",
-//   "id": "104992273790346816622",
-//   "name": "Prajwal Ponnana",
-//   "photoUrl": "https://lh3.googleusercontent.com/a-/AOh14GjZg2HFKFaYplVRoeecIrY15v1Q2fYx8oY3zJe5KZY=s96-c",
-// }
   }
   const handleGoogleAuth = async()=>{
     setIsLoadingGoogle(true);
@@ -57,8 +46,9 @@ export default function LoginScreen(props) {
     const {type,user} = res;
     if (type == "success") {
       const res = await sendToServer(user.name, user.id);
+      console.log("logged in",res[0],res[1])
       dispatchAction(
-        login({ name: res[0].username, id: res[0]._id, bills: res[0]["bills"] })
+        login({ name: res[0].username, id: res[0]._id, bills: res[1] })
       );
       props.navigation.navigate({
         routeName: "MainNavigator",
@@ -88,12 +78,12 @@ export default function LoginScreen(props) {
           const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
           const user = await response.json();
           const res = await sendToServer(user.name, user.id);
-          console.log(res);
+          console.log("logged in", res[0], res[1]);
           dispatchAction(
             login({
               name: res[0].username,
               id: res[0]._id,
-              bills: res[0]["bills"],
+              bills: res[1],
             })
           );
           props.navigation.navigate({
