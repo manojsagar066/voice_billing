@@ -54,7 +54,6 @@ def add_bill():
     response = bills.find({"customer":customer,"total":total,"items":items,"userId":userId})
     response_list = list(response)
     response_json = dumps(response_list)
-    print(response_json)
     return response_json
 
 @app.route("/bill", methods=['POST'])
