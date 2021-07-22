@@ -26,7 +26,11 @@ def fetch_user_data():
     data_json = dumps(data_list)
     if data_list == []:
         collection.insert_one({"_id":id, "username":username})
-        return {"_id":id, "username":username, "bills":[]}
+        find = collection.find({"_id":id, "username":username})
+        find_list = list(find)
+        find_list.append([])
+        data_json = dumps(find_list)
+        return data_json
         #data = collection.find({"_id":id,"username":username})
         #data_list = list(data)
         #data_json = dumps(data_list)
@@ -34,8 +38,7 @@ def fetch_user_data():
     
     else:
         data = bills.find({"userId":id})
-        data_list = list(data)
-        data_list.append({"username":username})
+        data_list.append(data)
         data_json = dumps(data_list)
         return data_json
 
