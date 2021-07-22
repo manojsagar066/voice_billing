@@ -1,80 +1,41 @@
-import React,{useState} from 'react'
+import React from 'react'
 import {
     StyleSheet,
     Text,
     View,
-    TextInput
   } from 'react-native';
 function AddNewItemScreen() {
-  const [itemname,setitemname]=React.useState('') 
-  function updateItemname(event){
-    setitemname(event.target.value)
-    console.log(itemname)
-  }
-  const [quantity,setquantity]=React.useState('') 
-  function updateItemname(event){
-    setitemname(event.target.value)
-    console.log(quantity)
-  }
-  const [price,setprice]=React.useState('') 
-  function updateItemname(event){
-    setitemname(event.target.value)
-    console.log(price)
-  }
-
-  
-    
-    
-   
-  return (
-      <View>
-      <TextInput onChange={(data)=>{
-    setitemname(data.target.value)
-    console.log(itemname,data.target);
-    
-    
-  }}value={itemname}
-      style={styles.basicTextInput}
-      placeholder={'Item Name'}
-     />
-     
-     <TextInput onChange={(data)=>{
-    setquantity(data.target.value)
-    console.log(quantity,data.target);
-    
-    
-  }} value={quantity}
-     style={styles.basicTextInput}
-     placeholder={'Enter the quantity'}
-     />
-     
-     <TextInput onChange={(data)=>{
-    setprice(data.target.value)
-    console.log(price,data.target);
-    
-    
-  }} value={quantity}
-     style={styles.basicTextInput}
-     placeholder={'Enter the Price'}
-     />
-     </View>
-            
+    return (
+        <View style={styles.mainContainer}>
+            <Text>
+                Previous Bills Screen
+            </Text>
+        </View>
     )
 }
 AddNewItemScreennavigationOptions = (navigationData) => {
   return {
-    
+    headerRight: () => {
+      return (
+        <TouchableOpacity>
+          <Icon
+            style={{ marginRight: 10 }}
+            name="logout"
+            type="material"
+            size={30}
+            color="#808e9b"
+          />
+        </TouchableOpacity>
+      );
+    },
   };
 };
 const styles = StyleSheet.create({
-  basicTextInput: {
-      width: '80%',
-      height: 44,
-      backgroundColor: '#f1f3f6',
-      borderRadius: 7,
-      paddingHorizontal: 10,
-  }
-
-  
+    mainContainer:{
+        flex:1,
+        alignItems:'center',
+        justifyContent:'center'
+    }
 })
+
 export default AddNewItemScreen

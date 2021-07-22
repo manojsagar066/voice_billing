@@ -1,4 +1,5 @@
 import React, { createRef,useState } from "react";
+import { useSelector,useDispatch } from "react-redux";
 import {
   StyleSheet,
   Text,
@@ -7,8 +8,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import takeScreenGrab from "../helpers/screenShotHelper";
-import { useSelector } from "react-redux";
 const ViewBill = (props) => {
+  const dispatch = useDispatch();
   const billRef = createRef();
   const state = useSelector(state => state.app);
   const [loading,isLoading] = useState(false);
@@ -32,7 +33,6 @@ const ViewBill = (props) => {
     }
     return ans;
   };
-
   return (
     <View style={styles.mainContainer}>
       <ScrollView>
@@ -46,11 +46,24 @@ const ViewBill = (props) => {
         </View>
       </ScrollView>
       <View style={styles.billButton}>
-        <TouchableOpacity onPress={()=>{
-          takeScreenGrab(isLoading,billRef,props.navigation,state.id,props.navigation.state.params.customerName,props.navigation.state.params.data,props.navigation.state.params.total)
+        {loading?<Text>
+          Loading....
+        </Text> :<TouchableOpacity onPress={()=>{
+          takeScreenGrab(
+            isLoading,
+            billRef,
+            props.navigation,
+            state.id,
+            props.navigation.state.params.customerName,
+            props.navigation.state.params.data,
+            props.navigation.state.params.total,
+            dispatch,
+            state.bills,
+            props.navigation.state.params.from
+          );
         }}>
           <Text style={{color:'white'}}>Done</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>}
       </View>
     </View>
   );

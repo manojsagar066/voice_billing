@@ -2,7 +2,6 @@ import React from 'react'
 import {View,Image,Text,Dimensions,FlatList} from 'react-native';
 import ItemsCard from './ItemsCard';
 import BillTotal from './BillTotal';
-import { Alert } from 'react-native';
 function Recording(props) {
     const {isRec,isRes,customerName,voiceData,billData,billTotal,setBillData,setTotal} = props;
     if (!isRec && !isRes && billData.length === 0){
@@ -29,25 +28,41 @@ function Recording(props) {
 
     }
     else if(!isRec && !isRes && billData.length > 0){
-      console.log('in recording',billData);
+      // console.log('in recording',billData);
         return (
           <View>
             <Text style={{ fontSize: 30, color: "#187fcc" }}>{voiceData}</Text>
             <BillTotal total={billTotal} />
             <FlatList
-              keyExtractor={(item, index) => item["Item Name"] + index}
+              keyExtractor={(item, index) => {
+                if (
+                  item["Item Name"] !== undefined &&
+                  item["Price ₹"] !== undefined &&
+                  item.Quantity !== undefined &&
+                  item.Units !== undefined
+                ) {
+                  return item["Item Name"] + index;
+                }
+              }}
               data={billData}
               renderItem={({ item }) => {
-                return (
-                  <ItemsCard
-                    setTotal={setTotal}
-                    title={item["Item Name"]}
-                    quantity={item.Quantity}
-                    units={item.Units}
-                    cost={item["Price ₹"]}
-                    setBillData={setBillData}
-                  />
-                );
+                if (
+                  item["Item Name"] !== undefined &&
+                  item["Price ₹"] !== undefined &&
+                  item.Quantity !==undefined &&
+                  item.Units !== undefined
+                ) {
+                  return (
+                    <ItemsCard
+                      setTotal={setTotal}
+                      title={item["Item Name"]}
+                      quantity={item.Quantity}
+                      units={item.Units}
+                      cost={item["Price ₹"]}
+                      setBillData={setBillData}
+                    />
+                  );
+                }
               }}
             />
           </View>

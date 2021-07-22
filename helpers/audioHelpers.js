@@ -4,13 +4,13 @@ import * as FileSystem from 'expo-file-system';
 export const startRecordingAudio = async(setUri,setRecording)=>{
     setUri('')
     try {
-      console.log('Requesting permissions..');
+      // console.log('Requesting permissions..');
       await Audio.requestPermissionsAsync();
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: true,
         playsInSilentModeIOS: true,
       }); 
-      console.log('Starting recording..');
+      // console.log('Starting recording..');
       const { recording } = await Audio.Recording.createAsync({
         isMeteringEnabled: true,
         android: {
@@ -24,9 +24,9 @@ export const startRecordingAudio = async(setUri,setRecording)=>{
         },
       });
       setRecording(recording);
-      console.log('Recording started');
+      // console.log('Recording started');
     } catch (err) {
-      console.error('Failed to start recording', err);
+      // console.error('Failed to start recording', err);
       Alert.alert('Error','There was something wrong please try again and make sure the mic permissions are enabled')
     }
   }
@@ -42,7 +42,7 @@ export const startRecordingAudio = async(setUri,setRecording)=>{
   ) => {
     try{
       setIsRes(true);
-    console.log("Stopping recording..");
+    // console.log("Stopping recording..");
     setRecording(undefined);
     await recording.stopAndUnloadAsync();
     const uri = recording.getURI();
@@ -50,7 +50,7 @@ export const startRecordingAudio = async(setUri,setRecording)=>{
     const base = await FileSystem.readAsStringAsync(uri, {
       encoding: "base64",
     });
-    console.log("Recording stopped and stored at", uri, ` ${base.length}`);
+    // console.log("Recording stopped and stored at", uri, ` ${base.length}`);
     const res = await fetch(
       "https://shielded-reef-50986.herokuapp.com/additem",
       {
@@ -63,7 +63,7 @@ export const startRecordingAudio = async(setUri,setRecording)=>{
     );
     const data = await res.json();
     let total = 0;
-    console.log(typeof(data['res']),data['res'],typeof(data));
+    // console.log(typeof(data['res']),data['res'],typeof(data));
     if(data['res'] !== undefined){
       setIsRes(false);
       setBillData((prev) => {
@@ -73,7 +73,7 @@ export const startRecordingAudio = async(setUri,setRecording)=>{
         total += item["Price ₹"];
       });
       setBillTotal((prev)=>prev+total);
-      console.log(data["res"]);
+      // console.log(data["res"]);
     }
     else{
       setIsRes(false);
@@ -83,7 +83,7 @@ export const startRecordingAudio = async(setUri,setRecording)=>{
     }
     catch(error){
       setIsRes(false);
-      console.log("Error",error);
+      // console.log("Error",error);
       Alert.alert("Error","An error occured try again");
     }
   };

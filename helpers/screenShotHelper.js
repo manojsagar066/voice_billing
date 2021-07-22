@@ -1,18 +1,23 @@
 import { captureRef } from "react-native-view-shot";
 import * as Sharing from "expo-sharing";
+import { useDispatch } from "react-redux";
+import {addnewbill} from '../store/actions/appActions';
 import {
   Alert,
 } from "react-native";
-const takeScreenGrab = async (setLoading,billRef,navigation,userId,customer,items,total) => {
+const takeScreenGrab = async (setLoading,billRef,navigation,userId,customer,items,total,dispatch,prevBills,from) => {
     let loading = false;
   Alert.alert("Done", "Do you wan't to share this bill", [
     {
       text: "No",
       onPress: async() => {
-        setLoading(true)
-        const res = await sendToServer(userId,customer,items,total);
         
-        setLoading(false)
+        if (from !== "previousBills") {
+        setLoading(true);
+        const data = await sendToServer(userId, customer, items, total);
+        setLoading(false);
+        dispatch(addnewbill(data[0]));
+        }
         navigation.navigate({
           routeName: "PreviousBillsScreen",
         });
@@ -35,9 +40,19 @@ const takeScreenGrab = async (setLoading,billRef,navigation,userId,customer,item
                     {
                       text: "Done",
                       onPress: async() => {
-                          setLoading(true);
-                          const res = await sendToServer(userId,customer,items,total);
-                          setLoading(false);
+                          
+                          if (from !== "previousBills")
+                            {
+                                setLoading(true);
+                            const data = await sendToServer(
+                              userId,
+                              customer,
+                              items,
+                              total
+                            );
+                            setLoading(false);
+                                dispatch(addnewbill(data[0]));
+                            }
                         navigation.navigate({
                           routeName: "PreviousBillsScreen",
                         });
@@ -53,13 +68,14 @@ const takeScreenGrab = async (setLoading,billRef,navigation,userId,customer,item
 };
 
 const sendToServer = async (userId, customer, items, total) => {
-  const res = await fetch("http://192.168.43.125:5000/addbill", {
+  const res = await fetch("https://shielded-reef-50986.herokuapp.com/addbill", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ customer, total, items, userId }),
   });
-  return res.json();
+  const data = await res.json();
+  return data;
 };
 export default takeScreenGrab;

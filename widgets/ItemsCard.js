@@ -10,18 +10,18 @@ function ItemsCard(props) {
                     {
                         text:'Delete',
                         onPress:()=>{
-                            console.log(title);
+                            // console.log(title);
                             setBillData((prevBill)=>prevBill.filter((value, index, arr)=>{
-                                    console.log(
-                                      value,
-                                      value["Item Name"] !== title
-                                    );
+                                    // console.log(
+                                    //   value,
+                                    //   value["Item Name"] !== title
+                                    // );
                                     if (
                                       value["Item Name"].toLowerCase() ===
                                       title.toLowerCase()
                                     ) {
                                       setTotal((prev) => {
-                                          console.log(value["Price ₹"]);
+                                        //   console.log(value["Price ₹"]);
                                           return prev - (value["Price ₹"]/2);
                                       });
                                     }
@@ -36,7 +36,6 @@ function ItemsCard(props) {
                     {
                         text:'Cancel',
                         onPress:()=>{
-                            console.log("boom");
                         }
                     }
                 ],{

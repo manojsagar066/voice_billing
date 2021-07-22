@@ -9,9 +9,6 @@ import { logout } from '../store/actions/appActions';
 import { Alert } from 'react-native';
 function NewBillScreen(props) {
     // const selector = useSelector((state)=>state.app);
-    useEffect(()=>{
-      console.log(billTotal,billData);
-    })
     const [uri,setUri] = useState("");
     const [voiceData,setVoiceData] = useState('')
     const [isRec,setRec] = useState(false)
@@ -20,7 +17,9 @@ function NewBillScreen(props) {
     const [billData,setBillData] = useState([]);
     const [billTotal,setBillTotal] = useState(0);
     const customerName = props.navigation.getParam("customerName");
+    
     return (
+      
       <View style={styles.mainContainer}>
         <View style={styles.billContainer}>
           <Recording
@@ -63,7 +62,7 @@ function NewBillScreen(props) {
             />
           </TouchableOpacity>
         </View>
-        <View style={styles.buttonRow}>
+        {!isRec && !isRes? <View style={styles.buttonRow}>
           <TouchableOpacity
             style={styles.button1}
             onPress={() => {
@@ -102,7 +101,7 @@ function NewBillScreen(props) {
           >
             <Text style={styles.buttonText}>Confirm</Text>
           </TouchableOpacity>
-        </View>
+        </View> :<View/>}
       </View>
     );
 }
