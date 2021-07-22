@@ -27,18 +27,21 @@ export const startRecordingAudio = async(setUri,setRecording)=>{
       console.log('Recording started');
     } catch (err) {
       console.error('Failed to start recording', err);
+      Alert.alert('Error','There was something wrong please try again and make sure the mic permissions are enabled')
     }
   }
 
-  export const stopRecordingAudio = async (
+
+  export const stopRecordingAudio2 = async (
     setUri,
     setRecording,
     recording,
     setBillData,
     setIsRes,
-    setVoiceData
+    setBillTotal
   ) => {
-    setIsRes(true)
+    try{
+      setIsRes(true);
     console.log("Stopping recording..");
     setRecording(undefined);
     await recording.stopAndUnloadAsync();
@@ -47,19 +50,40 @@ export const startRecordingAudio = async(setUri,setRecording)=>{
     const base = await FileSystem.readAsStringAsync(uri, {
       encoding: "base64",
     });
-    console.log("Recording stopped and stored at", uri,` ${base.length}`);
-    fetch("https://shielded-reef-50986.herokuapp.com/additem", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ string: base }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setIsRes(false);
-        setVoiceData(data["text"]);
-        Alert.alert('hhj','hhh');
+    console.log("Recording stopped and stored at", uri, ` ${base.length}`);
+    const res = await fetch(
+      "https://shielded-reef-50986.herokuapp.com/additem",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ string: base }),
+      }
+    );
+    const data = await res.json();
+    let total = 0;
+    console.log(typeof(data['res']),data['res'],typeof(data));
+    if(data['res'] !== undefined){
+      setIsRes(false);
+      setBillData((prev) => {
+        return prev.concat(data["res"]);
       });
+      data["res"].forEach((item) => {
+        total += item["Price ₹"];
+      });
+      setBillTotal((prev)=>prev+total);
+      console.log(data["res"]);
+    }
+    else{
+      setIsRes(false);
+      Alert.alert("An error occured",'Voice not clear try again');
+      
+    }
+    }
+    catch(error){
+      setIsRes(false);
+      console.log("Error",error);
+      Alert.alert("Error","An error occured try again");
+    }
   };

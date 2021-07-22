@@ -42,13 +42,13 @@ const AddNewNavigator = createStackNavigator(
 );
 const AppNavigator = createStackNavigator(
   {
-    PreviousBillsScreen: {
-      screen: PreviousBillsScreen,
-      navigationOptions: {
-        headerTitle: "Bills generated so far",
-        headerLeft: () => null,
-      },
-    },
+    // PreviousBillsScreen: {
+    //   screen: PreviousBillsScreen,
+    //   navigationOptions: {
+    //     headerTitle: "Bills generated so far",
+    //     headerLeft: () => null,
+    //   },
+    // },
     NewBillScreen: {
       screen: NewBillScreen,
     },
@@ -93,13 +93,13 @@ const MainNavigator = createDrawerNavigator(
   }
 );
 const AuthNavigator = createStackNavigator({
-  LoginScreen: {
-    screen: LoginScreen,
-    navigationOptions: {
-      headerShown: false,
-      headerRight: () => null,
-    },
-  },
+  // LoginScreen: {
+  //   screen: LoginScreen,
+  //   navigationOptions: {
+  //     headerShown: false,
+  //     headerRight: () => null,
+  //   },
+  // },
   MainNavigator: {
     screen: MainNavigator,
     navigationOptions: {

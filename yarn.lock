@@ -3354,6 +3354,15 @@ expo-constants@~11.0.1:
     expo-modules-core "~0.2.0"
     uuid "^3.3.2"
 
+expo-contacts@~9.2.5:
+  version "9.2.5"
+  resolved "https://registry.yarnpkg.com/expo-contacts/-/expo-contacts-9.2.5.tgz#8af20a03cd9ceb1bc0c9c9fdc0ab91cd1854429e"
+  integrity sha512-7QYPuJX7c2l2f8d+92i1vimTckOifh0MjkJSllo1e8Cpr4qqvk+6CDItzvlD3dV6AcdMan0OCt2ANFp9q55BGA==
+  dependencies:
+    "@expo/config-plugins" "^3.0.0"
+    expo-modules-core "~0.2.0"
+    uuid "^3.4.0"
+
 expo-error-recovery@~2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/expo-error-recovery/-/expo-error-recovery-2.2.0.tgz#89e5494d97347530dd53cd817d7ac63f07bf8de0"
