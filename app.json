@@ -12,10 +12,19 @@
     "android": {
       "permissions": [
         "android.permission.READ_CONTACTS",
-        "android.permission.WRITE_CONTACTS"
+        "android.permission.WRITE_CONTACTS",
+        "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.ppo004.voiceBillerApp"
+      "package": "com.ppo004.voiceBillerApp",
+      "config": {
+        "googleSignIn": {
+          "apiKey" : use your own,
+          "certificateHash": generate this by running expo:fetch
+        }
+      },
+      "versionCode": 1
     }
   },
   "name": "voiceBillerApp"
 }
+

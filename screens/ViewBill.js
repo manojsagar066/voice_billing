@@ -3,7 +3,7 @@ import { useSelector,useDispatch } from "react-redux";
 import {
   StyleSheet,
   Text,
-  ScrollView,
+  ScrollView,Dimensions,
   View,
   TouchableOpacity,
 } from "react-native";
@@ -21,7 +21,10 @@ const ViewBill = (props) => {
       ans.push(
         <View key={`${count}`} style={styles.individualItem}>
           <View style={styles.itemRow}>
-            <Text style={styles.textStyle}>{item["Item Name"]}</Text>
+            <Text style={styles.textStyle}>
+              {item["Item Name"].charAt(0).toUpperCase() +
+                item["Item Name"].slice(1)}
+            </Text>
             <Text style={[styles.costStyle]}>₹{item["Price ₹"]}</Text>
           </View>
           <Text
@@ -39,31 +42,51 @@ const ViewBill = (props) => {
         <View collapsable={false} ref={billRef}>
           <View>
             <Text style={styles.headerTitle}>
-              Total Cost is:{props.navigation.state.params.total}
+              Total Cost is: ₹{props.navigation.state.params.total}
             </Text>
           </View>
           <View style={styles.billContainer}>{renderData()}</View>
         </View>
       </ScrollView>
       <View style={styles.billButton}>
-        {loading?<Text>
-          Loading....
-        </Text> :<TouchableOpacity onPress={()=>{
-          takeScreenGrab(
-            isLoading,
-            billRef,
-            props.navigation,
-            state.id,
-            props.navigation.state.params.customerName,
-            props.navigation.state.params.data,
-            props.navigation.state.params.total,
-            dispatch,
-            state.bills,
-            props.navigation.state.params.from
-          );
-        }}>
-          <Text style={{color:'white'}}>Done</Text>
-        </TouchableOpacity>}
+        {loading ? (
+          <Text
+            style={{
+              color: "white",
+              fontSize: Dimensions.get("window").width / 19.5,
+              fontWeight: "bold",
+            }}
+          >
+            Just a sec..
+          </Text>
+        ) : (
+          <TouchableOpacity
+            onPress={() => {
+              takeScreenGrab(
+                isLoading,
+                billRef,
+                props.navigation,
+                state.id,
+                props.navigation.state.params.customerName,
+                props.navigation.state.params.data,
+                props.navigation.state.params.total,
+                dispatch,
+                state.bills,
+                props.navigation.state.params.from
+              );
+            }}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontWeight: "bold",
+                fontSize: Dimensions.get("window").width / 22,
+              }}
+            >
+              Done
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
@@ -75,22 +98,23 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     alignSelf: "center",
-    marginTop: 10,
-    fontSize: 25,
+    marginTop: Dimensions.get("window").width / 39,
+    fontSize: Dimensions.get("window").width / 15.6,
     color: "#307fc9",
+    fontWeight: "bold",
   },
   billContainer: {
-    borderWidth: 2,
-    margin: 15,
-    padding: 5,
-    borderRadius: 9,
+    borderWidth: Dimensions.get("window").width / 195,
+    margin: Dimensions.get("window").width / 26,
+    padding: Dimensions.get("window").width / 78,
+    borderRadius: Dimensions.get("window").width / 40,
     backgroundColor: "#d6d3cb",
   },
   individualItem: {
-    paddingHorizontal: 5,
-    borderBottomWidth: 1,
-    marginTop: 2,
-    height: 60,
+    paddingHorizontal: Dimensions.get("window").width / 78,
+    borderBottomWidth: Dimensions.get("window").width / 390,
+    marginTop: Dimensions.get("window").width / 195,
+    height: Dimensions.get("window").width / 6.5,
     justifyContent: "space-around",
   },
   itemRow: {
@@ -98,26 +122,27 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   costStyle: {
-    marginRight: 5,
-    marginVertical: 2,
-    fontSize: 20,
+    marginRight: Dimensions.get("window").width / 78,
+    marginVertical: Dimensions.get("window").width / 195,
+    fontSize: Dimensions.get("window").width / 19.5,
     color: "black",
   },
   textStyle: {
-    fontSize: 20,
+    fontSize: Dimensions.get("window").width / 19.5,
   },
-  subTextStyle:{
-    fontSize: 13,
-    color:'grey'
-  },  
+  subTextStyle: {
+    fontSize: Dimensions.get("window").width / 30,
+    color: "grey",
+  },
   billButton: {
     alignSelf: "center",
     backgroundColor: "#307fc9",
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-    borderRadius: 30,
+    paddingHorizontal: Dimensions.get("window").width / 22,
+    paddingVertical: Dimensions.get("window").width / 16,
+    borderRadius: Dimensions.get("window").width / 6,
     position: "absolute",
-    bottom: 10,
+    bottom: Dimensions.get("window").width / 39,
   },
 });
 export default ViewBill;
+

@@ -67,7 +67,7 @@ export const startRecordingAudio = async(setUri,setRecording)=>{
     if(data['res'] !== undefined){
       setIsRes(false);
       setBillData((prev) => {
-        return prev.concat(data["res"]);
+        return (data["res"]).concat(prev);
       });
       data["res"].forEach((item) => {
         total += item["Price ₹"];
@@ -77,13 +77,15 @@ export const startRecordingAudio = async(setUri,setRecording)=>{
     }
     else{
       setIsRes(false);
-      Alert.alert("An error occured",'Voice not clear try again');
+      console.log(data)
+      Alert.alert("An error occured",data['Error']);
       
     }
     }
     catch(error){
       setIsRes(false);
       // console.log("Error",error);
+      console.log(error);
       Alert.alert("Error","An error occured try again");
     }
   };

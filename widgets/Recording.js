@@ -7,7 +7,13 @@ function Recording(props) {
     if (!isRec && !isRes && billData.length === 0){
         return (
           <View>
-            <Text style={{ fontSize: 30, color: "#187fcc" }}>
+            <Text
+              style={{
+                fontSize: Dimensions.get("window").width / 13,
+                textAlign:'center',
+                color: "#187fcc",
+              }}
+            >
               Start Billing {customerName}'s bill
             </Text>
           </View>
@@ -31,7 +37,6 @@ function Recording(props) {
       // console.log('in recording',billData);
         return (
           <View>
-            <Text style={{ fontSize: 30, color: "#187fcc" }}>{voiceData}</Text>
             <BillTotal total={billTotal} />
             <FlatList
               keyExtractor={(item, index) => {
@@ -49,7 +54,7 @@ function Recording(props) {
                 if (
                   item["Item Name"] !== undefined &&
                   item["Price ₹"] !== undefined &&
-                  item.Quantity !==undefined &&
+                  item.Quantity !== undefined &&
                   item.Units !== undefined
                 ) {
                   return (
@@ -75,3 +80,4 @@ function Recording(props) {
 }
 
 export default Recording
+

@@ -67,3 +67,4 @@ function ConfirmAlert(navigation,title,message,data,total,clearData,clearTotal,c
 }
 
 export default ConfirmAlert
+
