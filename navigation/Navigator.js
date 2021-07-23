@@ -1,14 +1,14 @@
-import {  createAppContainer } from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
-import {createDrawerNavigator} from 'react-navigation-drawer';
-import { Icon } from 'react-native-elements';
-import { TouchableOpacity,Alert } from 'react-native';
-import React from 'react';
-import LoginScreen from '../screens/LoginScreen';
-import NewBillScreen from '../screens/NewBillScreen';
-import PreviousBillsScreen from '../screens/PreviousBillsScreen';
-import AddNewItemScreen from '../screens/AddNewItemScreen';
-import ViewBill from '../screens/ViewBill';
+import { createAppContainer } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
+import { createDrawerNavigator } from "react-navigation-drawer";
+import { Icon } from "react-native-elements";
+import { TouchableOpacity, Alert } from "react-native";
+import React from "react";
+import LoginScreen from "../screens/LoginScreen";
+import NewBillScreen from "../screens/NewBillScreen";
+import PreviousBillsScreen from "../screens/PreviousBillsScreen";
+import AddNewItemScreen from "../screens/AddNewItemScreen";
+import ViewBill from "../screens/ViewBill";
 const AddNewNavigator = createStackNavigator(
   {
     AddNewItemScreen: {
@@ -23,19 +23,6 @@ const AddNewNavigator = createStackNavigator(
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: "#d6d3cb",
-      },
-      headerRight: () => {
-        return (
-          <TouchableOpacity>
-            <Icon
-              style={{ marginRight: 10 }}
-              name="logout"
-              type="material"
-              size={30}
-              color="#808e9b"
-            />
-          </TouchableOpacity>
-        );
       },
     },
   }
@@ -54,6 +41,10 @@ const AppNavigator = createStackNavigator(
     },
     ViewBill: {
       screen: ViewBill,
+      navigationOptions: {
+        headerTitle: "Final Bill",
+        headerLeft: () => null,
+      },
     },
   },
   {
@@ -108,6 +99,5 @@ const AuthNavigator = createStackNavigator({
   },
 });
 
-
-  
 export default createAppContainer(AuthNavigator);
+

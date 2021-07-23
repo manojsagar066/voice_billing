@@ -9,7 +9,7 @@ const appReducer = (state = initialState, action)=>{
     switch(action.type){
         case LOGIN:{
             const newState = action.payload;
-            console.log({...newState});
+            // console.log({...newState});
             return {...newState};
         }
         case LOGOUT:{

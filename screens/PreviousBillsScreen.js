@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react'
 import { useSelector,useDispatch} from 'react-redux';
 import {
     StyleSheet,Alert,
-    Text,TextInput,
+    Text,TextInput,ToastAndroid,
     View,Dimensions,
     Modal,FlatList,
     Button,TouchableOpacity
@@ -25,45 +25,64 @@ function PreviousBillsScreen(props) {
                 }}
                 data={selector.bills}
                 renderItem={({ item }) => {
-                  if (item !== undefined)
-                    {
-                      return (
-                        <TouchableOpacity
-                          onPress={() => {
-                            props.navigation.navigate({
-                              routeName: "ViewBill",
-                              params: {
-                                data: item.items,
-                                total: item.total,
-                                customerName: item.customer,
-                                from: "previousBills",
-                              },
-                            });
+                  if (item !== undefined) {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          props.navigation.navigate({
+                            routeName: "ViewBill",
+                            params: {
+                              data: item.items,
+                              total: item.total,
+                              customerName: item.customer,
+                              from: "previousBills",
+                            },
+                          });
+                        }}
+                        style={styles.individualBill}
+                      >
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            justifyContent: "space-between",
                           }}
-                          style={styles.individualBill}
                         >
-                          <View
+                          <Text
                             style={{
-                              flexDirection: "row",
-                              justifyContent: "space-between",
+                              fontSize: Dimensions.get("window").width / 19.5,
                             }}
                           >
-                            <Text style={{ fontSize: 20 }}>
-                              {item.customer}{" "}
-                            </Text>
-                            <Text style={{ fontSize: 20 }}>₹ {item.total}</Text>
-                          </View>
-                        </TouchableOpacity>
-                      );
-                    }
+                            {item.customer}{" "}
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: Dimensions.get("window").width / 19.5,
+                            }}
+                          >
+                            ₹ {item.total}
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  }
                 }}
               />
             ) : (
               <View>
-                <Text style={{ textAlign: "center", fontSize: 15 }}>
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontSize: Dimensions.get("window").width / 26,
+                  }}
+                >
                   Looks like you are a new user,
                 </Text>
-                <Text style={{ textAlign: "center", fontSize: 15 }}>
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontSize: Dimensions.get("window").width / 26,
+                  }}
+                >
                   click New bill to start your first billing
                 </Text>
               </View>
@@ -77,11 +96,15 @@ function PreviousBillsScreen(props) {
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <View>
-                  <Text style={{ fontSize: 20, paddingBottom: 10 }}>
+                  <Text
+                    style={{
+                      fontSize: Dimensions.get("window").width / 19.5,
+                      paddingBottom: Dimensions.get("window").width / 39,
+                    }}
+                  >
                     Enter the customer name:
                   </Text>
                   <TextInput
-
                     style={styles.input}
                     value={customer}
                     onChangeText={(data) => {
@@ -89,32 +112,43 @@ function PreviousBillsScreen(props) {
                     }}
                   />
                 </View>
-                <Button
-                  color={"#307fc9"}
-                  title="add New"
-                  onPress={() => {
-                    setIsModalVisible(false);
-                    if(customer ===''){
-                        Alert.alert("Invalid entry','You have to enter customer's name",[
-                          {
-                            text:'Re-enter',
-                            onPress:()=>{
-                              setIsModalVisible(true);
-                            }
-                          }
-                        ])
-                    }
-                    else{
-                      props.navigation.navigate({
-                        routeName: "NewBillScreen",
-                        params: {
-                          customerName: customer,
-                          dispatcher: dispatch,
-                        },
-                      });
-                    }
-                  }}
-                />
+                <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
+                  <View
+                    style={{
+                      marginHorizontal: Dimensions.get("window").width / 39,
+                    }}
+                  >
+                    <Button
+                      color={"#307fc9"}
+                      title="add New"
+                      onPress={() => {
+                        if (customer === "") {
+                          ToastAndroid.show(
+                            "Customer's name is required",
+                            2000
+                          );
+                        } else {
+                          setIsModalVisible(false);
+                          props.navigation.navigate({
+                            routeName: "NewBillScreen",
+                            params: {
+                              customerName: customer,
+                              dispatcher: dispatch,
+                            },
+                          });
+                          setCustomer('')
+                        }
+                      }}
+                    />
+                  </View>
+                  <Button
+                    color={"#307fc9"}
+                    title="Dismiss"
+                    onPress={() => {
+                      setIsModalVisible(false);
+                    }}
+                  />
+                </View>
               </View>
             </View>
           </Modal>
@@ -129,7 +163,13 @@ function PreviousBillsScreen(props) {
             setIsModalVisible(true);
           }}
         >
-          <Text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>
+          <Text
+            style={{
+              color: "white",
+              fontSize: Dimensions.get("window").width / 19.5,
+              fontWeight: "bold",
+            }}
+          >
             New bill
           </Text>
         </TouchableOpacity>
@@ -144,59 +184,60 @@ const styles = StyleSheet.create({
     backgroundColor: "#d6d3cb",
   },
   individualBill: {
-    margin: 10,
+    margin: Dimensions.get("window").width / 39,
     backgroundColor: "white",
-    borderRadius: 15,
-    paddingVertical: 20,
-    paddingHorizontal: 30,
+    borderRadius: Dimensions.get("window").width / 26,
+    paddingVertical: Dimensions.get("window").width / 19.5,
+    paddingHorizontal: Dimensions.get("window").width / 13,
     width: Dimensions.get("window").width * 0.89,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: Dimensions.get("window").width / 195,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    shadowOpacity: Dimensions.get("window").width / 1560,
+    shadowRadius: Dimensions.get("window").width / 97.5,
+    elevation: Dimensions.get("window").width / 80,
   },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
+    marginTop: Dimensions.get("window").width / 17.72,
   },
   modalView: {
-    margin: 20,
+    margin: Dimensions.get("window").width / 19.5,
     backgroundColor: "#d6d3cb",
-    borderRadius: 20,
-    padding: 25,
+    borderRadius: Dimensions.get("window").width / 19.5,
+    padding: Dimensions.get("window").width / 15.6,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: Dimensions.get("window").width / 195,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    shadowOpacity: Dimensions.get("window").width / 1560,
+    shadowRadius: Dimensions.get("window").width / 97.5,
+    elevation: Dimensions.get("window").width / 80,
   },
   input: {
     width: Dimensions.get("window").width * 0.7,
-    height: 40,
+    height: Dimensions.get("window").width / 9.75,
     color: "#1f1e1c",
     backgroundColor: "white",
-    borderRadius: 6,
-    marginTop: 10,
-    paddingHorizontal: 10,
-    fontSize: 16,
-    marginVertical: 20,
+    borderRadius: Dimensions.get("window").width / 65,
+    marginTop: Dimensions.get("window").width / 39,
+    paddingHorizontal: Dimensions.get("window").width / 39,
+    fontSize: Dimensions.get("window").width / 24.375,
+    marginVertical: Dimensions.get("window").width / 19.5,
   },
   buttonStyle: {
     width: Dimensions.get("window").width,
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: 17,
+    paddingVertical: Dimensions.get("window").width / 23,
     backgroundColor: "#307fc9",
   },
 });
 export default PreviousBillsScreen
+

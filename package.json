@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.15.5",
+    "@react-native-picker/picker": "^1.16.3",
     "expo": "~42.0.0",
     "expo-av": "~9.2.3",
     "expo-contacts": "~9.2.5",
@@ -43,3 +44,4 @@
   },
   "private": true
 }
+

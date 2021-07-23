@@ -1,14 +1,18 @@
 import React, {useState } from 'react';
 import {useDispatch } from 'react-redux';
 import { login } from '../store/actions/appActions';
-import { androidClientId ,facebookAppId} from "../helpers/authIds";
+import {
+  androidClientId,
+  facebookAppId,
+  standAloneId,
+} from "../helpers/authIds";
 import {
   StyleSheet,
   Text,ScrollView,
   View,Alert,
   ActivityIndicator,
   TextInput,
-  Keyboard,
+  Keyboard,Dimensions,
   TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
@@ -25,6 +29,7 @@ export default function LoginScreen(props) {
   const [isLoadingGoogle,setIsLoadingGoogle] = useState(false);
   const [isLoadingFacebook,setIsLoadingFacebook] = useState(false);
   const dispatchAction = useDispatch();
+  const [dimension] = useState(Dimensions.get("window").width);
   const sendToServer = async(username,id,navigation)=>{
         try{
           const res = await fetch(
@@ -48,8 +53,9 @@ export default function LoginScreen(props) {
     try{
       setIsLoadingGoogle(true);
     const config = {
-      androidClientId : androidClientId,
-      scopes:['profile','email']
+      androidClientId: androidClientId,
+      scopes: ["profile", "email"],
+      androidStandaloneAppClientId: standAloneId,
     };
     const res = await Google.logInAsync(config);
     const {type,user} = res;
@@ -180,7 +186,7 @@ export default function LoginScreen(props) {
               secureTextEntry={!isVisible}
               textContentType="password"
             />
-            <View style={{ margin: 5 }}>
+            <View style={{ margin: dimension / 78 }}>
               <TouchableOpacity
                 onPress={() => {
                   updateIsVisible((prev) => !prev);
@@ -234,7 +240,11 @@ export default function LoginScreen(props) {
               <TouchableOpacity
                 style={styles.iconButton}
                 onPress={() => {
-                  handleGoogleAuth(dispatchAction,setIsLoadingGoogle,props.navigation);
+                  handleGoogleAuth(
+                    dispatchAction,
+                    setIsLoadingGoogle,
+                    props.navigation
+                  );
                 }}
               >
                 <Icon
@@ -258,7 +268,7 @@ export default function LoginScreen(props) {
                 <Icon
                   name="facebook-square"
                   type="font-awesome"
-                  size={30}
+                  size={dimension / 13}
                   color="#808e9b"
                 />
               </TouchableOpacity>
@@ -285,74 +295,74 @@ export default function LoginScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 50,
-    paddingHorizontal: 20,
+    paddingTop: Dimensions.get("window").width / 7.8,
+    paddingHorizontal: Dimensions.get("window").width / 19.5,
   },
   welcomeText: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    color: '#1f1e1c',
-    alignSelf: 'center',
+    fontSize: Dimensions.get("window").width / 15.6,
+    fontWeight: "bold",
+    color: "#1f1e1c",
+    alignSelf: "center",
   },
   loginText: {
-    color: '#1f1e1c',
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginTop: 20,
-    marginBottom: 10,
+    color: "#1f1e1c",
+    fontSize: Dimensions.get("window").width / 13.93,
+    fontWeight: "bold",
+    marginTop: Dimensions.get("window").width / 19.5,
+    marginBottom: Dimensions.get("window").width / 39,
   },
   input: {
-    width: '90%',
-    height: 50,
-    color: '#1f1e1c',
-    backgroundColor: '#8f8d89',
-    borderRadius: 6,
-    marginTop: 10,
-    paddingHorizontal: 10,
-    fontSize: 16,
+    width: Dimensions.get("window").width * 0.8,
+    height: Dimensions.get("window").width / 7.8,
+    color: "#1f1e1c",
+    backgroundColor: "#8f8d89",
+    borderRadius: Dimensions.get("window").width / 65,
+    marginTop: Dimensions.get("window").width / 39,
+    paddingHorizontal: Dimensions.get("window").width / 39,
+    fontSize: Dimensions.get("window").width / 24.375,
   },
   fpText: {
-    alignSelf: 'flex-end',
-    color: '#307fc9',
-    fontSize: 18,
-    fontWeight: '600',
-    marginTop: 10,
+    alignSelf: "flex-end",
+    color: "#307fc9",
+    fontSize: Dimensions.get("window").width / 21.67,
+    fontWeight: "600",
+    marginTop: Dimensions.get("window").width / 39,
   },
   loginButton: {
-    backgroundColor: '#307fc9',
-    paddingVertical: 12,
-    borderRadius: 7,
-    marginTop: 20,
+    backgroundColor: "#307fc9",
+    paddingVertical: Dimensions.get("window").width / 32.5,
+    borderRadius: Dimensions.get("window").width / 55.71,
+    marginTop: Dimensions.get("window").width / 19.5,
   },
   loginButtonText: {
-    fontSize: 20,
-    fontWeight: '500',
-    color: '#fafafa',
-    alignSelf: 'center',
+    fontSize: Dimensions.get("window").width / 19.5,
+    fontWeight: "500",
+    color: "#fafafa",
+    alignSelf: "center",
   },
   loginWithBar: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 50,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: Dimensions.get("window").width / 7.8,
   },
   iconButton: {
-    backgroundColor: '#333',
-    padding: 15,
-    marginHorizontal: 10,
-    borderRadius: 30,
-    height:60,
-    width:60
+    backgroundColor: "#333",
+    padding: Dimensions.get("window").width / 26,
+    marginHorizontal: Dimensions.get("window").width / 39,
+    borderRadius: Dimensions.get("window").width / 13,
+    height: Dimensions.get("window").width / 6.5,
+    width: Dimensions.get("window").width / 6.5,
   },
   signUpTextView: {
-    marginTop: 40,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
+    marginTop: Dimensions.get("window").width / 9.75,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
   },
   signUpText: {
-    color: '#1f1e1c',
-    fontSize: 20,
-    fontWeight: '500',
+    color: "#1f1e1c",
+    fontSize: Dimensions.get("window").width/19.5,
+    fontWeight: "500",
   },
 });
