@@ -39,10 +39,6 @@ def fetch_user_data():
     
     else:
         data = bills.find({"userId":id})
-        data_list1 = list(data)
-        data = []
-        for i in range(len(data_list1)):
-            data.append({"customer":data_list1[i]['customer'], "total":data_list1[i]['total'],"items":data_list1[i]['items']})
         data_list.append(data)
         data_json = dumps(data_list)
         return data_json
@@ -58,7 +54,6 @@ def add_bill():
     response = bills.find({"customer":customer,"total":total,"items":items,"userId":userId})
     response_list = list(response)
     response_json = dumps(response_list)
-    print(response_json)
     return response_json
 
 @app.route("/bill", methods=['POST'])
