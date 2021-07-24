@@ -11,7 +11,7 @@ As we all have seen a lot of malls, supermarkets have tools such as barcode scan
 4. Allows you to add items to the database from your phone                                                                                                           
 5. Easy and convenient login through Google or Facebook                                                                                                             
 ## 🏃How to get it up and running
-You can download the app and use it out of the box by clicking this link. If you want to implement some stuff that you think could have been added and use it follow these steps:
+You can download the app and use it out of the box by clicking this [link](https://www.dropbox.com/s/8zaj7krszxbww1i/voicebillerapp-6440b6a9ca2b47299aeaf9b07490ec97-signed.apk?dl=0). If you want to implement some stuff that you think could have been added and use it follow these steps:
 1. First up you will nodeJS to start this process and expo go mobile app to render the app in without building it.It is a great tool for prototyping.
 3. type `git clone https://github.com/manojsagar066/voice_billing.git`
 4. navigate to the voice_billing directory 
