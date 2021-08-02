@@ -33,5 +33,5 @@ You can download the app and use it out of the box by clicking this [link](https
 * Microphone                                                                                                                                                       
 * Internet                                                                                                                                                         
 * Internal Storage                                                                                                                                                 
-### 🖼️App Screenshots
-![screenshots](https://user-images.githubusercontent.com/55915329/127766114-b8452059-8e02-4172-932c-289f1a488cc7.png)
+## 🖼️Demo         
+[![IMAGE ALT TEXT HERE](https://camo.githubusercontent.com/1c2b949d8c91493e4d642d68f7f49b700691c2f3d15a8be4349076eba3320333/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f57617463682d44656d6f2d7265643f7374796c653d666f722d7468652d6261646765266c6f676f3d796f7574756265)](https://www.youtube.com/watch?v=27WX96hR-cw&ab_channel=TeamInfinity)
