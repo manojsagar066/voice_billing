@@ -1,5 +1,4 @@
 # Voice Biller - The new way of billing
-app demo - https://youtu.be/27WX96hR-cw
 🔊 A billing mobile app that helps you bill items based on voice commands
 
 ## 🤔About The Project
