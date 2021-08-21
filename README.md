@@ -12,15 +12,15 @@ As we all have seen a lot of malls, supermarkets have tools such as barcode scan
 4. Allows you to add items to the database from your phone                                                                                                           
 5. Easy and convenient login through Google or Facebook                                                                                                             
 ## 🏃How to get it up and running
-You can download the app and use it out of the box by clicking this [link](https://www.dropbox.com/s/8zaj7krszxbww1i/voicebillerapp-6440b6a9ca2b47299aeaf9b07490ec97-signed.apk?dl=0). If you want to implement some stuff that you think could have been added and use it follow these steps:
-1. First up you will nodeJS to start this process and expo go mobile app to render the app in without building it.It is a great tool for prototyping.
-3. type `git clone https://github.com/manojsagar066/voice_billing.git`
-4. navigate to the voice_billing directory 
-5. If you donot have expo cli type:`npm i -g expo-cli`                                                                                                                or if yarn is what you use as your package manager type: `yarn global add expo-cli` 
-6. To install the additional dependencies of the project type                                                                                                               `npm install` or `yarn add `
-7. Once all the installation process is out of the way type the following to get the metro bundler up and running.                                                           `expo start`
-8. Now you can choose on what platform you want the app, I would reccomend you to run it on android.
-9. After you select the platform wait for the javascript bundle to build. Once that is done voilà the app is up and running. Have fun by fidling with it, implementing your own stuff. 
+You can download the app and use it out of the box by clicking this [link](https://www.dropbox.com/s/8zaj7krszxbww1i/voicebillerapp-6440b6a9ca2b47299aeaf9b07490ec97-signed.apk?dl=0). If you want to implement stuff that you think that could have been added follow these steps:
+1. First up you will need nodeJS and expo go mobile app to render the app without building it. Find out more about it [here](https://expo.dev/).
+2. Type `git clone https://github.com/manojsagar066/voice_billing.git`
+3. Navigate to the voice_billing directory 
+4. If you donot have expo cli type:`npm i -g expo-cli`                                                                                                                or if yarn is what you use as your package manager type: `yarn global add expo-cli` 
+5. To install the additional dependencies of the project type                                                                                                               `npm install` or `yarn add `
+6. Once all the installation process is out of the way type the following to get the metro bundler up and running.                                                           `expo start`
+7. Now you can choose on what platform you want the app, I would reccomend you to run it on android.
+8. After you select the platform wait for the javascript bundle to build. Once that is done voilà the app is up and running. Have fun by fidling with it, implementing your own stuff. 
 ## 📚Tech Stack
 ### Backend
 * [Flask](https://flask-doc.readthedocs.io/en/latest)                                                                                                             
@@ -34,4 +34,5 @@ You can download the app and use it out of the box by clicking this [link](https
 * Microphone                                                                                                                                                       
 * Internet                                                                                                                                                         
 * Internal Storage                                                                                                                                                 
-### 🖼️App Screenshots
+## 🖼️Demo         
+[![IMAGE ALT TEXT HERE](https://camo.githubusercontent.com/1c2b949d8c91493e4d642d68f7f49b700691c2f3d15a8be4349076eba3320333/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f57617463682d44656d6f2d7265643f7374796c653d666f722d7468652d6261646765266c6f676f3d796f7574756265)](https://www.youtube.com/watch?v=27WX96hR-cw&ab_channel=TeamInfinity)
