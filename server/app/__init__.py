@@ -18,7 +18,7 @@ item_collection = db["items_description"]
 
 @app.route("/")
 def home():
-    return "This is home macha"
+    return "This is home"
 
 
 @app.route("/fetch", methods=["POST"])
